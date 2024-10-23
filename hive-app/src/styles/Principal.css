@@ -1,1 +1,20 @@
-/* Los estilos de la pagina principal */
+@import url('https://fonts.googleapis.com/css2?family=Hanuman:wght@100;300;400&family=Merriweather:ital,wght@0,300;1,300&family=Newsreader:wght@200;300;400&family=Open+Sans:ital,wght@1,300&family=Poppins:wght@400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif, 'Open Sans', sans-serif, 'Newsreader', serif, 'Hanuman', serif, 'Merriweather', serif;
+}
+
+.principal {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    color: #1d1d1b;
+    background-color: #EEEEEE;
+    padding-bottom: 3rem;
+}
+
+/* background-color: #EEEEEE; */
