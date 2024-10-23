@@ -4,6 +4,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    background-color: #EEEEEE;
     font-family: 'Poppins', sans-serif, 'Open Sans', sans-serif, 'Newsreader', serif, 'Hanuman', serif, 'Merriweather', serif;
 }
 
@@ -15,6 +16,27 @@
     color: #1d1d1b;
     background-color: #EEEEEE;
     padding-bottom: 3rem;
+    padding: 0 2rem;
 }
+
+.principal .top {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+}
+
+.principal .titulo {
+    font-size: 35px;
+}
+
+.principal .menu { 
+    border: transparent;
+    background-color: #EEEEEE;
+    justify-self: self-end;
+    width: 40px;
+    color: #222831;
+    font-size: 35px;
+}
+
 
 /* background-color: #EEEEEE; */
