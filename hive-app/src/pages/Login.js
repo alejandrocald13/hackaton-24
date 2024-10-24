@@ -1,5 +1,6 @@
+import '../main/login.ts';
 import "../styles/Login.css"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function Login() {
     const [username, setUsername] = useState('');
@@ -10,6 +11,23 @@ function Login() {
       // Aquí puedes guardar los datos o hacer algo con ellos (como enviarlos a una API)
       console.log('Usuario:', username);
       console.log('Contraseña:', password);
+    };
+
+    
+    useEffect(() => {
+      const boton = document.getElementById("login");
+      boton.addEventListener('click', handleLoginButton);
+        
+        // Limpiar el evento cuando el componente se desmonte
+        return () => {
+            boton.removeEventListener('click', handleLoginButton);
+        }
+    }, []);
+
+    const handleLoginButton = () => {
+
+      alert('has presionado a Messi')
+    
     };
   
     return (
@@ -39,7 +57,7 @@ function Login() {
                 />
               </li>
             </ul>
-            <button type="submit">Ingresar</button>
+            <button type="submit" id = "login" >Ingresar</button>
             <a href="/principal">momentaneo</a>
           </form>
         </div>
