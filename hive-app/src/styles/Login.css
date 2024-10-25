@@ -37,28 +37,40 @@
     text-align: center;
   }
   
-  .titulo {
+  .elementos_registro .titulo {
     margin-bottom: 20px;
+    background-color: white;
   }
   
-  ul {
+  .elementos_registro form {
+    background-color: white;
+  }
+  
+  .elementos_registro ul {
     list-style: none;
     padding: 0;
+    background-color: white;
   }
   
-  li {
+  .elementos_registro li {
     margin-bottom: 15px;
+    background-color: white;
+  }
+
+  .elementos_registro label {
+    background-color: white;
   }
   
-  input {
+  .elementos_registro input {
     width: 100%;
     padding: 8px;
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    background-color: white;
   }
   
-  button {
+  .elementos_registro button {
     padding: 10px 20px;
     background-color: #007bff;
     color: white;
@@ -67,7 +79,7 @@
     cursor: pointer;
   }
   
-  button:hover {
+  .elementos_registro button:hover {
     background-color: #0056b3;
   }
 
