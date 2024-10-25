@@ -91,6 +91,7 @@ function Calendario() {
 
     const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
     const monthName = currentDate.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+    const capitalizedMonthName = monthName.charAt(0).toUpperCase() + monthName.slice(1);
 
     return (
         <div className="calendario">
@@ -120,7 +121,7 @@ function Calendario() {
                 <div className="calendar-container">
                     <div className="calendar-navigation">
                         <button onClick={() => handleChangeMonth(-1)}>Anterior</button>
-                        <span>{monthName}</span>
+                        <span>{capitalizedMonthName}</span>
                         <button onClick={() => handleChangeMonth(1)}>Siguiente</button>
                     </div>
                     <div className="calendar">

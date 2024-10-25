@@ -41,7 +41,7 @@
 .calendar-navigation {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
 }
 
 .calendar-navigation button {
