@@ -1,3 +1,43 @@
+.head {
+    padding: 20px;
+}
+
+.head .tittle {
+    font-size: 35px;
+}
+
+.head .top {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+}
+
+.head .menu { 
+    border: transparent;
+    background-color: #EEEEEE;
+    justify-self: self-end;
+    width: 40px;
+    color: #222831;
+    font-size: 35px;
+}
+
+.button {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.notas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 5px;
+    margin: 0 auto;
+    max-width: 1500px;
+    gap: 20px;
+}
+
+
 .nota {
     width: 300px;
     padding: 20px;
@@ -15,7 +55,6 @@
     color: #333;
     margin-bottom: 20px;
     background-color: #f9f9f9;
-    overflow: hidden;
 }
 
 .nota-author {
@@ -93,6 +132,15 @@
     .modal-content {
         width: 90%;
         padding: 15px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .notas {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1px;
     }
 }
 
