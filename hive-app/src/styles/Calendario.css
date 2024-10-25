@@ -1,0 +1,128 @@
+.calendario {
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+}
+
+.titulo {
+    font-size: 24px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.filters {
+    display: flex;
+    margin-bottom: 50px;
+    gap: 20px;
+}
+
+.filters label {
+    margin: 5px 0;
+}
+
+.filters select {
+    padding: 5px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.main-container {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    justify-content: space-around;
+    gap: 90px;
+}
+
+.calendar-container {
+    flex: 1;
+}
+
+.calendar-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.calendar-navigation button {
+    margin: 0 20px;
+}
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar-day {
+    padding: 10px;
+    background-color: #f0f0f0;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 30px;
+    transition: background-color 0.3s;
+}
+
+.calendar-day:hover {
+    background-color: #dcdcdc;
+}
+
+.event-day {
+    background-color: #ffdddd;
+    border: 2px solid #ff8888;
+}
+
+.event-details {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+    margin-left: 20px;
+}
+
+.event-details h2 {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Media Queries para hacer responsive */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .calendar {
+        grid-template-columns: repeat(7, 1fr);
+    }
+
+    .calendar-day {
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .calendar {
+        grid-template-columns: repeat(7, 1fr);
+    }
+
+    .calendar-day {
+        padding: 6px;
+        font-size: 14px;
+    }
+
+    .filters {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filters label, .filters select {
+        font-size: 14px;
+    }
+
+    .event-details {
+        max-height: 300px;
+    }
+}
