@@ -8,6 +8,7 @@ function Calendario() {
     const [selectedDayEvents, setSelectedDayEvents] = useState([]);
     const [filters, setFilters] = useState({ type: 'all', group: 'all' });
     const [groups, setGroups] = useState([]);
+    const [showMessage, setShowMessage] = useState(false); // Estado para el mensaje de formato
 
     const academicGroups = [
         { id: 'group1', name: 'Grupo Académico 1' },
@@ -17,7 +18,7 @@ function Calendario() {
     const personalGroups = [
         { id: 'group3', name: 'Grupo Personal 1' },
         { id: 'group4', name: 'Grupo Personal 2' }, 
-        { id: 'Familia', name: 'Familia' }
+        { id: 'group5', name: 'Familia' }
     ];
 
     const exampleEvents = [
@@ -27,7 +28,7 @@ function Calendario() {
         { id: 4, titulo: 'Clase de Inglés', descripcion: 'Lección semanal de inglés', fecha: '2024-10-28', tipo: 'academic', grupo: 'group1' },
         { id: 5, titulo: 'Cena Familiar', descripcion: 'Cena con la familia', fecha: '2024-10-29', tipo: 'personal', grupo: 'group4' },
         { id: 6, titulo: 'Tarea', descripcion: 'Tarea', fecha: '2024-06-03', tipo: 'academic', grupo: 'group1' },
-        { id: 7, titulo: 'Salida', descripcion: 'Salida de descanso', fecha: '2024-12-24', tipo: 'personal', grupo: 'Familia' }
+        { id: 7, titulo: 'Salida', descripcion: 'Salida de descanso', fecha: '2024-12-24', tipo: 'personal', grupo: 'group5' }
     ];
 
     useEffect(() => {
@@ -82,7 +83,6 @@ function Calendario() {
     const monthName = currentDate.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
     const capitalizedMonthName = monthName.charAt(0).toUpperCase() + monthName.slice(1);
 
-    // Obtener el primer día del mes (0 = Domingo, 1 = Lunes, ..., 6 = Sábado)
     const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
     const daysArray = Array.from({ length: daysInMonth + firstDayOfMonth }, (_, index) => {
         return index < firstDayOfMonth ? null : index - firstDayOfMonth + 1;
@@ -90,69 +90,91 @@ function Calendario() {
 
     const weekDays = ["DO", "LU", "MA", "MI", "JU", "VI", "SA"];
 
+    // Controla la visibilidad del mensaje según el tamaño de la pantalla
+    useEffect(() => {
+        const handleResize = () => {
+            setShowMessage(window.innerWidth >= 501 && window.innerWidth <= 900);
+        };
+
+        window.addEventListener('resize', handleResize);
+        handleResize(); // Ejecutar al cargar
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     return (
-        <div className="calendario">
-            <h1 className="titulo">Calendario</h1>
-            
-            <div className="filters">
-                <label htmlFor="typeFilter">Filtrar por tipo de grupo:</label>
-                <select id="typeFilter" value={filters.type} onChange={(e) => handleFilterChange(e.target.value, filters.group)}>
-                    <option value="all">Todos</option>
-                    <option value="academic">Académico</option>
-                    <option value="personal">Personal</option>
-                </select>
+        <div>
+            <div className="calendario">
+                <h1 className="titulo">Calendario</h1>
+                
+                <div className="filters">
+                    <label htmlFor="typeFilter">Filtrar por tipo de grupo:</label>
+                    <select id="typeFilter" value={filters.type} onChange={(e) => handleFilterChange(e.target.value, filters.group)}>
+                        <option value="all">Todos</option>
+                        <option value="academic">Académico</option>
+                        <option value="personal">Personal</option>
+                    </select>
 
-                <label htmlFor="groupFilter">Filtrar por grupo:</label>
-                <select id="groupFilter" value={filters.group} onChange={(e) => handleFilterChange(filters.type, e.target.value)}>
-                    <option value="all">Todos los grupos</option>
-                    {groups.map(group => (
-                        <option key={group.id} value={group.id}>{group.name}</option>
-                    ))}
-                </select>
-            </div>
-
-            <div className="main-container">
-                <div className="calendar-container">
-                    <div className="calendar-navigation">
-                        <button onClick={() => handleChangeMonth(-1)}>Anterior</button>
-                        <span>{capitalizedMonthName}</span>
-                        <button onClick={() => handleChangeMonth(1)}>Siguiente</button>
-                    </div>
-
-                    <div className="weekdays">
-                        {weekDays.map((day, index) => (
-                            <div key={index} className="weekday">{day}</div>
+                    <label htmlFor="groupFilter">Filtrar por grupo:</label>
+                    <select id="groupFilter" value={filters.group} onChange={(e) => handleFilterChange(filters.type, e.target.value)}>
+                        <option value="all">Todos los grupos</option>
+                        {groups.map(group => (
+                            <option key={group.id} value={group.id}>{group.name}</option>
                         ))}
-                    </div>
-
-                    <div className="calendar">
-                        {daysArray.map((day, index) => (
-                            <div
-                                key={index}
-                                className={`calendar-day ${day ? (hasEvents(day) ? 'event-day' : '') : 'empty-day'}`}
-                                onClick={() => day && handleDayClick(day)}
-                            >
-                                {day || ''}
-                            </div>
-                        ))}
-                    </div>
+                    </select>
                 </div>
 
-                <div className="event-details">
-                    <h2>Detalles de eventos</h2>
-                    <ul>
-                        {selectedDayEvents.length > 0 ? (
-                            selectedDayEvents.map((event, index) => (
-                                <li key={index}>
-                                    {event.titulo} - {event.descripcion}
-                                </li>
-                            ))
-                        ) : (
-                            <li>No hay eventos para esta fecha.</li>
-                        )}
-                    </ul>
+                <div className="main-container">
+                    <div className="calendar-container">
+                        <div className="calendar-navigation">
+                            <button onClick={() => handleChangeMonth(-1)}>Anterior</button>
+                            <span>{capitalizedMonthName}</span>
+                            <button onClick={() => handleChangeMonth(1)}>Siguiente</button>
+                        </div>
+
+                        <div className="weekdays">
+                            {weekDays.map((day, index) => (
+                                <div key={index} className="weekday">{day}</div>
+                            ))}
+                        </div>
+
+                        <div className="calendar">
+                            {daysArray.map((day, index) => (
+                                <div
+                                    key={index}
+                                    className={`calendar-day ${day ? (hasEvents(day) ? 'event-day' : '') : 'empty-day'}`}
+                                    onClick={() => day && handleDayClick(day)}
+                                >
+                                    {day || ''}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="event-details">
+                        <h2>Detalles de eventos</h2>
+                        <ul>
+                            {selectedDayEvents.length > 0 ? (
+                                selectedDayEvents.map((event, index) => (
+                                    <li key={index}>
+                                        {event.titulo} - {event.descripcion}
+                                    </li>
+                                ))
+                            ) : (
+                                <li>No hay eventos para esta fecha.</li>
+                            )}
+                        </ul>
+                    </div>
                 </div>
             </div>
+
+            {showMessage && (
+                <div className="no-format-message">
+                    El formato de pantalla no es aceptado.
+                </div>
+            )}
         </div>
     );
 }
