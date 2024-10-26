@@ -28,7 +28,9 @@ function Calendario() {
         { id: 4, titulo: 'Clase de Inglés', descripcion: 'Lección semanal de inglés', fecha: '2024-10-28', tipo: 'academic', grupo: 'group1' },
         { id: 5, titulo: 'Cena Familiar', descripcion: 'Cena con la familia', fecha: '2024-10-29', tipo: 'personal', grupo: 'group4' },
         { id: 6, titulo: 'Tarea', descripcion: 'Tarea', fecha: '2024-06-03', tipo: 'academic', grupo: 'group1' },
-        { id: 7, titulo: 'Salida', descripcion: 'Salida de descanso', fecha: '2024-12-24', tipo: 'personal', grupo: 'group5' }
+        { id: 7, titulo: 'Salida', descripcion: 'Salida de descanso', fecha: '2024-12-24', tipo: 'personal', grupo: 'group5' },
+        { id: 8, titulo: 'Examen Lenguaje', descripcion: 'Examen parcial de Lenguaje', fecha: '2024-10-25', tipo: 'academic', grupo: 'group2' },
+        { id: 9, titulo: 'Salida', descripcion: 'Salida de descanso', fecha: '2024-10-25', tipo: 'personal', grupo: 'group5' },
     ];
 
     useEffect(() => {
@@ -157,11 +159,19 @@ function Calendario() {
                         <h2>Detalles de eventos</h2>
                         <ul>
                             {selectedDayEvents.length > 0 ? (
-                                selectedDayEvents.map((event, index) => (
-                                    <li key={index}>
-                                        {event.titulo} - {event.descripcion}
-                                    </li>
-                                ))
+                                selectedDayEvents.map((event, index) => {
+                                    // Encuentra el nombre del grupo correspondiente al evento
+                                    const groupName = groups.find(group => group.id === event.grupo)?.name || '';
+                                    const eventType = event.tipo === 'academic' ? 'Académico' : 'Personal'; // Determina el tipo de evento
+                                    return (
+                                        <li key={index}>
+                                            <div className="event-header">
+                                                <strong>{groupName} / {eventType}</strong>
+                                            </div>
+                                            <div>{event.titulo} - {event.descripcion}</div>
+                                        </li>
+                                    );
+                                })
                             ) : (
                                 <li>No hay eventos para esta fecha.</li>
                             )}
