@@ -6,7 +6,6 @@ import Nota from "../components/Nota";
 function Notas() {
     
     const [description, setDescription] = useState('');
-    const [prueba, setPrueba] = useState('');
 
     const [isOpen, setIsOpen] = useState(false);
     const toggleModal = () => {
@@ -15,6 +14,12 @@ function Notas() {
 
     const handleSave = () => {
         console.log("Nota guardada:", description); // Aquí se guarda la nota
+        
+        console.log(description);
+        console.log(fechaCompleta);
+        // enviar descripción
+        // enviar fecha completa
+
         setDescription("");
         setIsOpen(false);
     };
@@ -25,10 +30,15 @@ function Notas() {
 
     const dia = fechaActual.getDate();
     const anio = fechaActual.getFullYear();
-    const mesNombre_anio = meses[fechaActual.getMonth()] + " " + anio;
+    const fechaCompleta = dia + " " + meses[fechaActual.getMonth()] + " " + anio;
 
-    const fechaFormateada = dia + ' de ' + mesNombre_anio;
-    console.log(fechaFormateada);
+
+    /* A la hora de reciperar la fecha de la base se empleara esto para dejarlo en el formato de la nota dia - mes año*/
+    const partesFecha = fechaCompleta.split(" ");
+
+    const diaNota = partesFecha[0];
+    const mesConAnioNota = partesFecha[1] + " " + partesFecha[2];
+
 
     return (
         <div className="notas-container">
@@ -49,33 +59,15 @@ function Notas() {
                             onChange={(e) => setDescription(e.target.value)}
                             placeholder="Ingresa la nota a guardar"
                         />
-                        <input
-                            type="text"
-                            id="Descripción de la nota"
-                            value={prueba}
-                            onChange={(e) => setPrueba(e.target.value)}
-                            placeholder="Ingresa la nota a guardar"
-                        />
                         <button className="close-modal-btn" onClick={handleSave}>Guardar</button>
                     </div>
                 </div>
             )}
             
             <div className="notas">
-                <Nota description="Texto de ejemplo" dia={dia} mesNombre_anio={mesNombre_anio} />
-                <Nota description="Lorem Ipsum is simply dummy text of the printing and typesetting industry." dia={dia} mesNombre_anio={mesNombre_anio} />
-                <Nota />
-                <Nota />
-                <Nota /><Nota description="Lorem Ipsum is simply dummy text of the printing and typesetting industry." dia={dia} mesNombre_anio={mesNombre_anio} />
-                <Nota />
-                <Nota description="align-items: center en .notas-container ayuda a centrar su contenido horizontalmente.
-grid-template-columns: 1fr en .notas hará que las notas se muestren en una sola columna, lo que es ideal en pantallas pequeñas.
-max-width: 300px en .notas restringe el ancho máximo de las notas, para que no ocupen más espacio del necesario en pantallas pequeñas."/>
-                <Nota />
-                <Nota />
-                <Nota /><Nota description="Lorem Ipsum is simply dummy text of the printing and typesetting industry." dia={dia} mesNombre_anio={mesNombre_anio} />
-                <Nota />
+                <Nota description="Texto de ejemplo" dia={diaNota} mesNombre_anio={mesConAnioNota} />
             </div>
+            
         </div>
         
         
