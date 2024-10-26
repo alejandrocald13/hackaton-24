@@ -1,60 +1,140 @@
-const express = require('express');
-const router = express.Router();
-const db = require('../db'); // Asegúrate de tener un archivo de configuración de SQLite
-const bcrypt = require('bcrypt');
+import { open } from "sqlite";
+import sqlite3 from "sqlite3";
+import { encrypt , decrypt } from "./crypt.js";
+import { useEffect } from "react";
+import { isCompositeComponent } from "react-dom/test-utils";
 
-// Ruta para obtener todas las tarjetas
-router.get('/tarjetas', (req, res) => {
-    db.all('SELECT * FROM tarjetas', (err, rows) => {
-        if (err) return res.status(500).json({ error: err.message });
-        res.json(rows);
-    });
-});
+// Hacer clase base de datos
 
-// Ruta para obtener tarjetas de un grupo específico
-router.get('/tarjetas/:grupoId', (req, res) => {
-    const { grupoId } = req.params;
-    db.all('SELECT * FROM tarjetas WHERE grupo_id = ?', [grupoId], (err, rows) => {
-        if (err) return res.status(500).json({ error: err.message });
-        res.json(rows);
-    });
-});
-
-// Ruta para registrar un nuevo usuario
-router.post('/register', (req, res) => {
-    const { nombre, username, password, email } = req.body;
-
-    // Encriptar la contraseña antes de almacenarla
-    bcrypt.hash(password, 10, (err, hash) => {
-        if (err) return res.status(500).send('Error en el hash de la contraseña');
-
-        db.run(`INSERT INTO usuarios (nombre, username, password, email) VALUES (?, ?, ?, ?)`,
-            [nombre, username, hash, email], function (error) {
-                if (error) {
-                    return res.status(500).send('Error al registrar el usuario');
-                }
-                res.status(201).send('Usuario registrado con éxito');
-            });
-    });
-});
-
-// Ruta para iniciar sesión
-router.post('/login', (req, res) => {
-    const { username, password } = req.body;
-
-    db.get(`SELECT * FROM usuarios WHERE username = ?`, [username], (err, row) => {
-        if (err) return res.status(500).send('Error al buscar el usuario');
-        if (!row) return res.status(401).send('Usuario o contraseña incorrectos');
-
-        // Comparar la contraseña ingresada con la almacenada
-        bcrypt.compare(password, row.password, (err, result) => {
-            if (result) {
-                res.send('Inicio de sesión exitoso');
-            } else {
-                res.status(401).send('Usuario o contraseña incorrectos');
-            }
+// Función para insertar usuarios en la base de datos
+class Table{
+  
+    constructor(){
+        
+    };
+    // Métodos de inserción
+    async insertUser(name, userName, password, email, image = null) {
+        
+        const db = await open({
+          filename: "./hive-db.db",
+          driver: sqlite3.Database,
         });
-    });
-});
 
-module.exports = router;
+        const encryptedText = encrypt(password);
+
+        const stmt = await db.prepare(
+          'INSERT INTO User (name, userName, password, email, image, iv, key) VALUES (? ,?, ?, ?, ?, ?, ?)'
+        );
+
+        await stmt.run(name, userName, encryptedText.encryptedData, email, image, encryptedText.iv, encryptedText.key);
+        await stmt.finalize();
+        await db.close();
+        console.log("Usuario insertado y conexión cerrada.");
+    };
+
+    async insertGroup(groupName, createdDate, type, creatorUser){
+        const db = await open({
+            filename: "./hive-db.db",
+            driver: sqlite3.Database,
+          });
+        
+          const stmt = await db.prepare(
+            'INSERT INTO Group (groupName, createdDate, type, creatorUser) VALUES (? ,?, ?, ?)'
+          );
+          await stmt.run(groupName, createdDate, type, creatorUser);
+          await stmt.finalize();
+          await db.close();
+          console.log("Usuario insertado y conexión cerrada.");
+    };
+
+    async insertGroups(idUser, idGroup){
+        const db = await open({
+            filename: "./hive-db.db",
+            driver: sqlite3.Database,
+          });
+        
+          const stmt = await db.prepare(
+            'INSERT INTO Groups (idUser, idGroup) VALUES (?, ?)'
+          );
+          await stmt.run(idUser, idGroup);
+          await stmt.finalize();
+          await db.close();
+          console.log("Usuario insertado y conexión cerrada.");
+    };
+
+    async insertNotes(idUser, information, confirmatedDate, image){
+        const db = await open({
+            filename: "./hive-db.db",
+            driver: sqlite3.Database,
+          });
+        
+          const stmt = await db.prepare(
+            'INSERT INTO Note (idUser, information, confirmatedDate, image) VALUES (?, ?, ?, ?)'
+          );
+          await stmt.run(idUser, information, confirmatedDate, image);
+          await stmt.finalize();
+          await db.close();
+          console.log("Usuario insertado y conexión cerrada.");
+    };
+
+
+    async insertPost(idGroup, idUser, confirmatedDate, information, image){
+        const db = await open({
+            filename: "./hive-db.db",
+            driver: sqlite3.Database,
+          });
+        
+          const stmt = await db.prepare(
+            'INSERT INTO Post (idGroup, idUser, confirmatedDate, information, image) VALUES (?, ?, ?, ?, ?)'
+          );
+          await stmt.run(idGroup, idUser, confirmatedDate, information, image);
+          await stmt.finalize();
+          await db.close();
+          console.log("Usuario insertado y conexión cerrada.");
+    };
+
+    async validateUser(userName, password, email = null){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+    
+      const stmt = await db.get(
+        'SELECT * FROM User WHERE userName = ?',
+        [userName]
+    );
+      let userFound = false
+      if (stmt) {
+        
+        userFound = true;
+
+        if (userFound){
+
+            const foundPassword = stmt.password;
+            const iv = stmt.iv;
+
+            const decryptedText = decrypt({encryptedData: foundPassword, iv: iv});
+
+            if (decryptedText === password){
+                userFound = true;
+            }
+            else{
+                userFound = false;
+            }
+        }
+        
+        
+
+
+      } else{
+        userFound = false
+      }
+      await db.close();
+      return userFound
+
+    }
+};
+
+
+// Exporta la función para usarla en otros archivos
+export {Table};
