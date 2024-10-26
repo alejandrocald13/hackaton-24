@@ -8,22 +8,36 @@
     font-family: 'Poppins', sans-serif, 'Open Sans', sans-serif, 'Newsreader', serif, 'Hanuman', serif, 'Merriweather', serif;
 }
 
-.principal {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    width: 100%;
+.header {
+    min-height: 80px;
+    max-height: 82px;
     color: #1d1d1b;
     background-color: #EEEEEE;
-    padding-bottom: 3rem;
-    padding: 0 2rem;
+    margin: 1.5rem 0;
 }
 
-.principal .display_tarjetas {
+
+.header .top {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
+    margin: 15px 0;
 }
 
+.header .top a {
+    text-decoration: none;
+}
 
-/* background-color: #EEEEEE; */
+.header .titulo_header {
+    font-size: 40px;
+    color: #1d1d1b;
+}
+
+.header .menu { 
+    border: transparent;
+    background-color: #EEEEEE;
+    justify-self: self-end;
+    width: 40px;
+    color: #222831;
+    font-size: 35px;
+}

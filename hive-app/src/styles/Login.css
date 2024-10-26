@@ -8,67 +8,89 @@
 }
 
 .login {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    width: 100%;
-    color: #1d1d1b;
-    background-color: #EEEEEE;
-    padding-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  color: #1d1d1b;
+  background-color: #EEEEEE;
+  padding-bottom: 3rem;
 }
 
 .login h1 {
-    text-align: center;
+  text-align: center;
 }
 
 .login .elementos_registro ul li{
-    list-style: none;
+  list-style: none;
 }
 
 .elementos_registro {
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 10px; /* Esquinas redondeadas */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
-    padding: 20px;
-    width: 300px;
-    text-align: center;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 10px; /* Esquinas redondeadas */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+  padding: 20px;
+  width: 300px;
+  text-align: center;
   }
   
-  .titulo {
+  .elementos_registro .titulo {
     margin-bottom: 20px;
+    background-color: white;
   }
   
-  ul {
+  .elementos_registro form {
+    background-color: white;
+  }
+  
+  .elementos_registro ul {
     list-style: none;
     padding: 0;
+    background-color: white;
   }
   
-  li {
+  .elementos_registro li {
     margin-bottom: 15px;
+    background-color: white;
+  }
+
+  .elementos_registro label {
+    background-color: white;
   }
   
-  input {
+  .elementos_registro input {
     width: 100%;
     padding: 8px;
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    background-color: white;
   }
   
-  button {
+  .elementos_registro button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #222831;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
   }
+
+  .elementos_registro .button_registrar {
+    float: right;
+    margin-bottom: 1rem;
+  }
+
+  .elementos_registro .button_ingresar {
+    float: left;
+    margin-bottom: 1rem;
+  }
   
-  button:hover {
-    background-color: #0056b3;
+  .elementos_registro button:hover {
+    background-color: #222831;
   }
 
 /* background-color: #EEEEEE; */
