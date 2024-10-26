@@ -1,5 +1,4 @@
 import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom'
-// import Principal from './pages/Principal';
 import Principal from './pages/Principal';
 import Grupos from './pages/Grupos';
 import SingleGroup from './pages/SingleGroup';
