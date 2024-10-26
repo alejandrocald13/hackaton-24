@@ -40,7 +40,6 @@ app.post("/api/login", async (req, res) => {
     }
     res.status(200).send("Usuario encontrado");
   } catch (error) {
-    console.error(error);
     res.status(500).send("El usuario no fue encontrado");
   }
 });

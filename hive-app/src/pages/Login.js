@@ -1,10 +1,10 @@
-import '../main/login.ts';
 import "../styles/Login.css"
 import { useEffect, useState } from 'react';
 
 function Login() {
-    const [userName, setUsername] = useState('');
+    let [userName, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
     useEffect(() => {
       const boton = document.getElementById("insert");
       boton.addEventListener('click', handleSubmit);
@@ -17,7 +17,7 @@ function Login() {
 
     const handleSubmit = (event) => {
       event.preventDefault();
-    
+
       /*Crear el cuerpo de la solicitud (datos del usuario)
       const userData = {
         name: "PEPE",
@@ -50,7 +50,9 @@ function Login() {
         password: document.getElementById("password").value,
       };
 
-      console.log(user)
+      setUsername('');
+      setPassword('');
+
       fetch("http://localhost:3001/api/login", {
   
         method: "POST",
