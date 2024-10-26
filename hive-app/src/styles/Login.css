@@ -8,33 +8,33 @@
 }
 
 .login {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    width: 100%;
-    color: #1d1d1b;
-    background-color: #EEEEEE;
-    padding-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  color: #1d1d1b;
+  background-color: #EEEEEE;
+  padding-bottom: 3rem;
 }
 
 .login h1 {
-    text-align: center;
+  text-align: center;
 }
 
 .login .elementos_registro ul li{
-    list-style: none;
+  list-style: none;
 }
 
 .elementos_registro {
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 10px; /* Esquinas redondeadas */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
-    padding: 20px;
-    width: 300px;
-    text-align: center;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 10px; /* Esquinas redondeadas */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+  padding: 20px;
+  width: 300px;
+  text-align: center;
   }
   
   .elementos_registro .titulo {
@@ -72,15 +72,25 @@
   
   .elementos_registro button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #222831;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
   }
+
+  .elementos_registro .button_registrar {
+    float: right;
+    margin-bottom: 1rem;
+  }
+
+  .elementos_registro .button_ingresar {
+    float: left;
+    margin-bottom: 1rem;
+  }
   
   .elementos_registro button:hover {
-    background-color: #0056b3;
+    background-color: #222831;
   }
 
 /* background-color: #EEEEEE; */
