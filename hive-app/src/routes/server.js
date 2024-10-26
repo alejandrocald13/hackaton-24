@@ -1,8 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { Table } from "./database.js"; // Importa la función de inserción
+import { Table } from "./api.js"; // Importa la función de inserción
 import cors from 'cors';
-
 
 // Accedemos a los métodos de la base de dtaos
 const table = new Table();
@@ -20,9 +19,10 @@ app.use(bodyParser.json());
 // AQUI MANEJAMOS LAS ACCIONES QUE SE REALIZARAN EN LA BASE DE DATOS
 // Ruta para inserción de usuarios (/register)
 app.post("/api/register", async (req, res) => {
-  const { name, userName, password, email, image } = req.body;
+  const { name, username, password, email, image } = req.body;
   try {
-    await table.insertUser(name, userName, password, email, image);
+
+    await table.insertUser(name, username, password, email, image);
     res.status(200).send("Usuario registrado exitosamente");
   } catch (error) {
     console.error(error);
@@ -32,9 +32,10 @@ app.post("/api/register", async (req, res) => {
 
 // Ruta para validar (/login)
 app.post("/api/login", async (req, res) => {
-  const { userName, password} = req.body;
+  const { username, password} = req.body;
   try {
-    const respuesta = await table.validateUser(userName, password);
+
+    const respuesta = await table.validateUser(username, password);
     if (!respuesta){
       throw new Error()
     }
