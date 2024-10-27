@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Tarjeta from "../components/Tarjeta";
 import "../styles/SingleGroup.css";
 
 function SingleGroup() {
+    const [showModalMiembros, setShowModalMiembros] = useState(false);
+    const [busqueda, setBusqueda] = useState("");
+    const [showMessage, setShowMessage] = useState(false);
     const [showId, setShowId] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [formData, setFormData] = useState({
@@ -88,95 +91,152 @@ function SingleGroup() {
             console.log("La fecha no es válida."); // Mensaje si la fecha no es válida
         }
     };
+
+    const miembrosIniciales = ["Carlos", "Ana", "Pedro", "Lucía", "María", "Jorge", "Mario"];
+    const [miembros, setMiembros] = useState(miembrosIniciales);
+
+    // Filtrar miembros por la letra inicial, mostrar todos si no hay búsqueda
+    const miembrosFiltrados = busqueda === "" 
+        ? miembros // Mostrar todos los miembros si no hay búsqueda
+        : miembros.filter(miembro =>
+            miembro.charAt(0).toLowerCase() === busqueda.toLowerCase() // Comparar solo la letra inicial
+        );
+
+    const toggleModal = () => setShowModalMiembros(!showModalMiembros);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setShowMessage(window.innerWidth >= 501 && window.innerWidth <= 900);
+        };
+
+        window.addEventListener('resize', handleResize);
+        handleResize(); // Ejecutar al cargar
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
     
 
     return (
-        <div className="sigle_group">
-            <Header />
-            <div className="info_grupo">
-                <h1 className="titulo">Página por Grupo</h1>
-                <ul className="info">
-                    <li>
-                        <button className="id_grupo" onClick={toggleIdVisibility}>
-                            <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                <g>
-                                    <path fill="none" d="M0 0h24v24H0z"></path>
-                                    <path d="M14 14.252V22H4a8 8 0 0 1 10-7.748zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6zm6 4v-3h2v3h3v2h-3v3h-2v-3h-3v-2h3z"></path>
-                                </g>
-                            </svg>
-                        </button>
-                    </li>
-                    <li>
-                        <button>
-                            <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                <path fillRule="evenodd" d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 100-6 3 3 0 000 6zm-5.784 6A2.238 2.238 0 015 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 005 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" clipRule="evenodd"></path>
-                            </svg>
-                        </button>
-                    </li>
-                    <li>
-                        <button className="crear_evento" onClick={() => setShowModal(true)}>
-                            <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                <g>
-                                    <path fill="none" d="M0 0h24v24H0z"></path>
-                                    <path d="M17 3h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h4V1h2v2h6V1h2v2zM4 9v10h16V9H4zm2 4h5v4H6v-4z"></path>
-                                </g>
-                            </svg>
-                        </button>
-                    </li>
-                    {showId && <li className="id">5454</li>}
-                </ul>
-            </div>
-            <div className="eventos">
-                <Tarjeta />
-                <Tarjeta />
-            </div>
+        <div>
+            <div className="sigle_group">
+                <Header />
+                <div className="info_grupo">
+                    <h1 className="titulo">Página por Grupo</h1>
+                    <ul className="info">
+                        <li>
+                            <button className="id_grupo" onClick={toggleIdVisibility}>
+                                <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                    <g>
+                                        <path fill="none" d="M0 0h24v24H0z"></path>
+                                        <path d="M14 14.252V22H4a8 8 0 0 1 10-7.748zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6zm6 4v-3h2v3h3v2h-3v3h-2v-3h-3v-2h3z"></path>
+                                    </g>
+                                </svg>
+                            </button>
+                        </li>
+                        <li>
+                            <button onClick={toggleModal} className="abrir-modal">
+                                <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                    <path fillRule="evenodd" d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 100-6 3 3 0 000 6zm-5.784 6A2.238 2.238 0 015 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 005 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" clipRule="evenodd"></path>
+                                </svg>
+                            </button>
+                        </li>
+                        <li>
+                            <button className="crear_evento" onClick={() => setShowModal(true)}>
+                                <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                    <g>
+                                        <path fill="none" d="M0 0h24v24H0z"></path>
+                                        <path d="M17 3h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h4V1h2v2h6V1h2v2zM4 9v10h16V9H4zm2 4h5v4H6v-4z"></path>
+                                    </g>
+                                </svg>
+                            </button>
+                        </li>
+                        {showId && <li className="id">5454</li>}
+                    </ul>
+                </div>
+                <div className="eventos">
+                    <Tarjeta />
+                    <Tarjeta />
+                </div>
 
-            {/* Modal de Crear Evento */}
-            {showModal && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <h2>Crear Nuevo Evento</h2>
-                        <input
-                            type="text"
-                            name="title"
-                            placeholder="Título del evento"
-                            value={formData.title}
-                            onChange={handleInputChange}
-                        />
-                        <input
-                            type="text"
-                            name="description"
-                            placeholder="Descripción"
-                            value={formData.description}
-                            onChange={handleInputChange}
-                        />
-                        <input
-                            type="number"
-                            name="day"
-                            placeholder="Día"
-                            value={formData.day}
-                            onChange={handleInputChange}
-                        />
-                        <input
-                            type="number"
-                            name="month"
-                            placeholder="Mes"
-                            value={formData.month}
-                            onChange={handleInputChange}
-                        />
-                        <input
-                            type="number"
-                            name="year"
-                            placeholder="Año"
-                            value={formData.year}
-                            onChange={handleInputChange}
-                        />
+                {/* Modal de Crear Evento */}
+                {showModal && (
+                    <div className="modal">
+                        <div className="modal-content">
+                            <h2>Crear Nuevo Evento</h2>
+                            <input
+                                type="text"
+                                name="title"
+                                placeholder="Título del evento"
+                                value={formData.title}
+                                onChange={handleInputChange}
+                            />
+                            <input
+                                type="text"
+                                name="description"
+                                placeholder="Descripción"
+                                value={formData.description}
+                                onChange={handleInputChange}
+                            />
+                            <input
+                                type="number"
+                                name="day"
+                                placeholder="Día"
+                                value={formData.day}
+                                onChange={handleInputChange}
+                            />
+                            <input
+                                type="number"
+                                name="month"
+                                placeholder="Mes"
+                                value={formData.month}
+                                onChange={handleInputChange}
+                            />
+                            <input
+                                type="number"
+                                name="year"
+                                placeholder="Año"
+                                value={formData.year}
+                                onChange={handleInputChange}
+                            />
 
-                        {error && <p className="error">{error}</p>}
+                            {error && <p className="error">{error}</p>}
 
-                        <button onClick={handleCreateEvent}>Crear Evento</button>
-                        <button onClick={() => setShowModal(false)}>Cancelar</button>
+                            <button onClick={handleCreateEvent}>Crear Evento</button>
+                            <button onClick={() => setShowModal(false)}>Cancelar</button>
+                        </div>
                     </div>
+                )}
+                
+                {showModalMiembros && (
+                    <div className="modal">
+                        <div className="modal-contenido">
+                            <h1 className="titulo">Miembros del grupo</h1>
+                            <input 
+                                type="text" 
+                                placeholder="Buscar miembro..." 
+                                value={busqueda} 
+                                onChange={(e) => setBusqueda(e.target.value)}
+                                className="busqueda"
+                            />
+                            <ul className="lista-miembros">
+                                {miembrosFiltrados.map((miembro, index) => (
+                                    <li key={index} className="miembro-item">
+                                        {miembro}
+                                    </li>
+                                ))}
+                            </ul>
+                            <button onClick={toggleModal} className="cerrar-modal">
+                                Cerrar
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </div>
+            {showMessage && (
+                <div className="no-format-message">
+                    El formato de pantalla no es aceptado.
                 </div>
             )}
         </div>

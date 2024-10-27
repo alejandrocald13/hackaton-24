@@ -4,6 +4,7 @@ import "../styles/Grupos.css";
 import Header from "../components/Header";
 
 function Grupos() {
+  const [showMessage, setShowMessage] = useState(false);
   const navigate = useNavigate(); 
   const [activeSection, setActiveSection] = useState(null);
   const [grupos, setGrupos] = useState([]); 
@@ -112,92 +113,112 @@ function Grupos() {
     setActiveSection(activeSection === index ? null : index); 
   };
 
+  useEffect(() => {
+        const handleResize = () => {
+            setShowMessage(window.innerWidth >= 501 && window.innerWidth <= 900);
+        };
+
+        window.addEventListener('resize', handleResize);
+        handleResize(); // Ejecutar al cargar
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
   return (
-    <div className="grupos">
-      <Header />
-      <h1 className="titulo">Grupos a los que perteneces</h1>
+    <div>
+      <div className="grupos">
+        <Header />
+        <h1 className="titulo">Grupos a los que perteneces</h1>
 
-      <button onClick={abrirModal} className="crear-grupo-btn">
-        Crear Nuevo Grupo
-      </button>
+        <button onClick={abrirModal} className="crear-grupo-btn">
+          Crear Nuevo Grupo
+        </button>
 
-      {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h2>Nuevo Grupo</h2>
-            <input
-              type="text"
-              name="title"
-              placeholder="Nombre del grupo"
-              value={nuevoGrupo.title}
-              onChange={handleInputChange}
-            />
-            <ul>
-              {nuevoGrupo.integrantes.map((integrante, index) => (
-                <li key={index}>
-                  {integrante}
-                  <button onClick={() => eliminarIntegrante(index)}>Eliminar</button>
-                </li>
-              ))}
-            </ul>
-            <label>
-              Tipo de grupo:
-              <select
-                name="tipo"
-                value={nuevoGrupo.tipo}
+        {isModalOpen && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h2>Nuevo Grupo</h2>
+              <input
+                type="text"
+                name="title"
+                placeholder="Nombre del grupo"
+                value={nuevoGrupo.title}
                 onChange={handleInputChange}
-              >
-                <option value="Personal">Personal</option>
-                <option value="Académico">Académico</option>
-              </select>
-            </label>
-            <button onClick={agregarGrupo}>Agregar Grupo</button>
-            <button onClick={cerrarModal}>Cancelar</button>
+              />
+              <ul>
+                {nuevoGrupo.integrantes.map((integrante, index) => (
+                  <li key={index}>
+                    {integrante}
+                    <button onClick={() => eliminarIntegrante(index)}>Eliminar</button>
+                  </li>
+                ))}
+              </ul>
+              <label>
+                Tipo de grupo:
+                <select
+                  name="tipo"
+                  value={nuevoGrupo.tipo}
+                  onChange={handleInputChange}
+                >
+                  <option value="Personal">Personal</option>
+                  <option value="Académico">Académico</option>
+                </select>
+              </label>
+              <button onClick={agregarGrupo}>Agregar Grupo</button>
+              <button onClick={cerrarModal}>Cancelar</button>
+            </div>
           </div>
+        )}
+
+        <div className="grupo-categorias">
+          <h2 className="h2_personales" onClick={() => toggleSection(0)}>
+            Grupos Personales
+            <span className="toggle-icon">
+              {activeSection === 0 ? "▲" : "▼"}
+            </span>
+          </h2>
+          {activeSection === 0 && (
+            <div className="grupo-list">
+              {grupos
+                .filter(grupo => grupo.tipo === "Personal")
+                .map((grupo, index) => (
+                  <div key={index} className="grupo-item">
+                    <div className="grupo-title" onClick={() => handleNavigate("personal")}>
+                      {grupo.groupName}
+                    </div>
+                  </div>
+                ))}
+            </div>
+          )}
+
+          <h2 className="h2_academicos" onClick={() => toggleSection(1)}>
+            Grupos Académicos
+            <span className="toggle-icon">
+              {activeSection === 1 ? "▲" : "▼"}
+            </span>
+          </h2>
+          {activeSection === 1 && (
+            <div className="grupo-list">
+              {grupos
+                .filter(grupo => grupo.tipo === "Académico")
+                .map((grupo, index) => (
+                  <div key={index} className="grupo-item">
+                    <div className="grupo-title" onClick={() => handleNavigate("academico")}>
+                      {grupo.groupName}
+                    </div>
+                  </div>
+                ))}
+            </div>
+          )}
         </div>
-      )}
-
-      <div className="grupo-categorias">
-        <h2 className="h2_personales" onClick={() => toggleSection(0)}>
-          Grupos Personales
-          <span className="toggle-icon">
-            {activeSection === 0 ? "▲" : "▼"}
-          </span>
-        </h2>
-        {activeSection === 0 && (
-          <div className="grupo-list">
-            {grupos
-              .filter(grupo => grupo.tipo === "Personal")
-              .map((grupo, index) => (
-                <div key={index} className="grupo-item">
-                  <div className="grupo-title" onClick={() => handleNavigate("personal")}>
-                    {grupo.groupName}
-                  </div>
-                </div>
-              ))}
-          </div>
-        )}
-
-        <h2 className="h2_academicos" onClick={() => toggleSection(1)}>
-          Grupos Académicos
-          <span className="toggle-icon">
-            {activeSection === 1 ? "▲" : "▼"}
-          </span>
-        </h2>
-        {activeSection === 1 && (
-          <div className="grupo-list">
-            {grupos
-              .filter(grupo => grupo.tipo === "Académico")
-              .map((grupo, index) => (
-                <div key={index} className="grupo-item">
-                  <div className="grupo-title" onClick={() => handleNavigate("academico")}>
-                    {grupo.groupName}
-                  </div>
-                </div>
-              ))}
-          </div>
-        )}
       </div>
+      {showMessage && (
+                <div className="no-format-message">
+                    El formato de pantalla no es aceptado.
+                </div>
+            )}
     </div>
   );
 }

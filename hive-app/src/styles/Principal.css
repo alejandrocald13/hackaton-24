@@ -41,3 +41,76 @@
         padding: 0 2rem 2rem 2rem;
     }
 }
+
+/* Para pantallas de 0 a 500 px */
+@media (max-width: 500px) {
+    .principal .main-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .principal {
+        grid-template-columns: repeat(7, 1fr);
+    }
+
+    .principal .miembros-day {
+        padding: 6px;
+        font-size: 14px;
+    }
+
+    .principal .filters {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .principal .filters label,
+    .filters select {
+        font-size: 14px;
+    }
+
+    .principal .event-details {
+        max-height: 300px;
+    }
+}
+
+/* Para pantallas de 500px a 900px */
+@media (min-width: 501px) and (max-width: 899px) {
+    .principal {
+        display: none;
+    }
+    .principal .no-format-message {
+        display: block;
+    }
+}
+
+/* En Calendario.css */
+.principal .no-format-message {
+    background-color: #ffdddd; /* Fondo rojo claro */
+    color: #d9534f; /* Color de texto rojo oscuro */
+    padding: 15px;
+    border: 1px solid #d9534f; /* Borde en color similar */
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 300px;
+    width: 100%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Para pantallas de 900px en adelante */
+@media (min-width: 900px) {
+    .principal .main-container {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .principal {
+        grid-template-columns: repeat(7, 1fr);
+    }
+
+    .principal .miembros-day {
+        padding: 10px;
+        font-size: 16px;
+    }
+}

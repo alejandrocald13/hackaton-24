@@ -1,7 +1,8 @@
 import "../styles/Login.css";
-import { useState } from 'react';
+import React, { useState, useEffect } from "react";
 
 function Login() {
+  const [showMessage, setShowMessage] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -57,64 +58,84 @@ function Login() {
 
   };
 
+  useEffect(() => {
+        const handleResize = () => {
+            setShowMessage(window.innerWidth >= 501 && window.innerWidth <= 900);
+        };
+
+        window.addEventListener('resize', handleResize);
+        handleResize(); // Ejecutar al cargar
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
   return (
-    <div className="login">
-      <div className="elementos_registro">
-        <h1 className="titulo">{isRegistering ? 'Registro' : 'Login'}</h1>
-        
-        <form onSubmit={handleSubmit}>
-          <ul>
-            {isRegistering && (
-              <>
-                <li>
-                  <label htmlFor="nombre">Nombre:</label>
-                  <input
-                    type="text"
-                    id="nombre"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Ingresa tu nombre"
-                  />
-                </li>
-                <li>
-                  <label htmlFor="email">Email:</label>
-                  <input
-                    type="email"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Ingresa tu email"
-                  />
-                </li>
-              </>
+    <div>
+      <div className="login">
+        <div className="elementos_registro">
+          <h1 className="titulo">{isRegistering ? 'Registro' : 'Login'}</h1>
+          
+          <form onSubmit={handleSubmit}>
+            <ul>
+              {isRegistering && (
+                <>
+                  <li>
+                    <label htmlFor="nombre">Nombre:</label>
+                    <input
+                      type="text"
+                      id="nombre"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Ingresa tu nombre"
+                    />
+                  </li>
+                  <li>
+                    <label htmlFor="email">Email:</label>
+                    <input
+                      type="email"
+                      id="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Ingresa tu email"
+                    />
+                  </li>
+                </>
+              )}
+              <li>
+                <label htmlFor="username">Usuario:</label>
+                <input
+                  type="text"
+                  id="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Ingresa tu usuario"
+                />
+              </li>
+              <li>
+                <label htmlFor="password">Contraseña:</label>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Ingresa tu contraseña"
+                />
+              </li>
+            </ul>
+            <button type="submit" className="button_ingresar">{isRegistering ? 'Registrar' : 'Ingresar'}</button>
+            <button type="button" className="button_registrar" onClick={() => setIsRegistering(!isRegistering)}>
+              {isRegistering ? 'Iniciar sesión' : 'Registrarse'}
+            </button>
+          </form>
+          </div>
+          </div>
+          {showMessage && (
+                <div className="no-format-message">
+                    El formato de pantalla no es aceptado.
+                </div>
             )}
-            <li>
-              <label htmlFor="username">Usuario:</label>
-              <input
-                type="text"
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Ingresa tu usuario"
-              />
-            </li>
-            <li>
-              <label htmlFor="password">Contraseña:</label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Ingresa tu contraseña"
-              />
-            </li>
-          </ul>
-          <button type="submit" className="button_ingresar">{isRegistering ? 'Registrar' : 'Ingresar'}</button>
-          <button type="button" className="button_registrar" onClick={() => setIsRegistering(!isRegistering)}>
-            {isRegistering ? 'Iniciar sesión' : 'Registrarse'}
-          </button>
-        </form>
-        </div>
         </div>
   );
 }
