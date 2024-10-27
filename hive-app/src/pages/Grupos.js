@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { resolvePath, useNavigate } from "react-router-dom";
 import "../styles/Grupos.css";
 import Header from "../components/Header";
 
 function Grupos() {
   const navigate = useNavigate(); 
   const [activeSection, setActiveSection] = useState(null);
-  const [grupos, setGrupos] = useState([]); 
+  const [grupos, setGrupos] = useState([{}]); 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [nuevoGrupo, setNuevoGrupo] = useState({
     title: "",
@@ -16,14 +16,27 @@ function Grupos() {
   const [integranteInput, setIntegranteInput] = useState(""); 
 
   // Función para cargar los grupos desde la base de datos
+  // ROBERTO CALDERON
   const fetchGrupos = async () => {
-    try {
-      const response = await fetch("URL_DE_TU_API"); // Reemplazar con la base de datos
+
+    // const username = localStorage.getItem('username'); // para el login final
+
+    const username = "alejandrocald13";
+
+    // llama a la api
+
+    const response = await fetch('http://localhost:3001/api/fetch-groups', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({username}),
+    });
+
+    if (response.ok) {
+      // convierte la data en un json con {idUser, idGroup, groupName, createdDate, type (0 - p, 1 - a), creatorUser}
       const data = await response.json();
-      setGrupos(data); 
-    } catch (error) {
-      console.error("Error al cargar los grupos:", error);
+      setGrupos(data);
     }
+
   };
 
   useEffect(() => {

@@ -133,6 +133,37 @@ class Table{
       return userFound
 
     }
+
+    // ROBERTO CALDERON
+
+    async fetchGroups(idUser){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+    
+      const stmt = await db.get(
+        'SELECT * FROM Groups JOIN Group_ ON Groups.idGroup = Group_.groupName WHERE Groups.idUser = ?',
+        [idUser]
+    );
+
+    let result;
+
+    if (stmt) {
+        result = stmt
+      }
+      else{
+        result = null;
+      }
+
+      await db.close();
+
+      return result;
+
+
+    }
+
+
 };
 
 
