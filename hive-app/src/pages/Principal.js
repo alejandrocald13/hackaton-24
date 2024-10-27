@@ -20,12 +20,6 @@ function Principal() {
                 <Tarjeta/><Tarjeta/>
 
             </div>
-            <ul>
-                <a href="/grupo"><li>Un grupo en especifico</li></a>
-                <a href="/grupos-generales"><li>Todos los grupos</li></a>
-                <a href="/calendario"><li>Calendario</li></a>
-                <a href="/miembros"><li>Miembros</li></a>
-            </ul>
         </div>
         
     )
