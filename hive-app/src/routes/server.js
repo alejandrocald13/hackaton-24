@@ -15,7 +15,6 @@ app.use(cors());
 // Middleware para analizar solicitudes JSON
 app.use(bodyParser.json());
 
-
 // AQUI MANEJAMOS LAS ACCIONES QUE SE REALIZARAN EN LA BASE DE DATOS
 // Ruta para inserción de usuarios (/register)
 app.post("/api/register", async (req, res) => {
@@ -39,10 +38,23 @@ app.post("/api/login", async (req, res) => {
     if (!respuesta){
       throw new Error()
     }
+
+    localStorage.setItem('username', username);
+
     res.status(200).send("Usuario encontrado");
   } catch (error) {
     res.status(500).send("El usuario no fue encontrado");
   }
+});
+
+// ROBERTO CALDERON
+// Ruta para sacar los grupos 
+app.post("/api/fetch-groups", async (req, res) => {
+  const { username} = req.body;
+
+  const result = await table.fetchGroups(username);
+  res.json(result);
+    
 });
 
 // Iniciar el servidor

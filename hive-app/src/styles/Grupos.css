@@ -8,6 +8,7 @@
   font-family: 'Poppins', sans-serif, 'Open Sans', sans-serif, 'Newsreader', serif, 'Hanuman', serif, 'Merriweather', serif;
 }
 
+/* Estilos generales para el contenedor principal */
 .grupos {
   display: flex;
   flex-direction: column;
@@ -18,21 +19,20 @@
   padding-bottom: 3rem;
   padding: 0 2rem;
 }
-  
+
+/* Título principal */
 .grupos .titulo {
   margin: 0 0 15px 0;
   font-size: 26px;
   color: #222831;
 }
 
-.grupos .h2_personales {
+/* Títulos de sección */
+.grupos .h2_personales, .grupos .h2_academicos {
   margin: 1rem 0;
 }
 
-.grupos .h2_academicos {
-  margin: 1rem 0;
-}
-
+/* Botón para crear un nuevo grupo */
 .grupos .crear-grupo-btn {
   background-color: #222831;
   color: #EEEEEE;
@@ -48,6 +48,7 @@
   background-color: #1d1d1b;
 }
 
+/* Modal (fondo y contenido) */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -61,7 +62,7 @@
 }
 
 .modal-content {
-  background-color: #f4f4f4;
+  background-color: #EEEEEE;
   padding: 20px;
   border-radius: 8px;
   width: 300px;
@@ -95,6 +96,7 @@
   background-color: #1d1d1b;
 }
 
+/* Estilos para cada ítem de grupo */
 .grupo-item {
   background-color: #EEEEEE;
   margin-bottom: 10px;
@@ -126,4 +128,42 @@
   padding: 10px;
   border-top: 1px solid #ddd;
   color: #1d1d1b;
+}
+
+
+/* Estilos para pantallas grandes (escritorio, desde 900px de ancho) */
+@media (min-width: 900px) {
+  .grupos {
+    padding: 2rem 4rem;
+  }
+
+  .modal-content {
+    width: 400px;
+  }
+
+  .grupos .titulo {
+    font-size: 30px;
+  }
+
+  .grupo-title {
+    font-size: 22px;
+  }
+
+  .grupo-content {
+    font-size: 18px;
+  }
+
+  .grupos .crear-grupo-btn {
+    min-width: 15rem;
+    max-width: 5rem;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 10px 0 27px 0;
+  }
+
+  .grupos .grupo-categorias {
+    display: flex;
+    justify-content: space-around;
+  }
+  
 }

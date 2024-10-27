@@ -26,4 +26,18 @@
 }
 
 
-/* background-color: #EEEEEE; */
+@media (min-width: 900px) {
+    .principal {
+        padding: 2rem 4rem;
+    }
+
+    .principal .display_tarjetas {
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 2rem 2rem 2rem;
+    }
+}
