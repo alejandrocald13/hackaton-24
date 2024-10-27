@@ -4,7 +4,6 @@ import sqlite3 from "sqlite3";
 
 // Función para insertar usuarios en la base de datos
 class Table{
-  
     constructor(){
         
 
@@ -114,18 +113,49 @@ class Table{
         driver: sqlite3.Database,
       });
     
-      const data = await db.get(
+      const data = await db.all(
         'SELECT * FROM User'
     );
-    
-      db.all(data, [], (err, rows) => {
-        if (err) {
-            throw err;
-        }
-        return rows
-      });
-
+      return data
     }
+
+    async getEvents(){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+    
+      const data = await db.all(
+        'SELECT * FROM Events'
+    );
+      return data
+    }
+
+    async getGroups(){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+    
+      const data = await db.all(
+        'SELECT * FROM Groups'
+    );
+      return data
+    }
+
+    async getGroup(){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+    
+      const data = await db.all(
+        'SELECT * FROM Group'
+    );
+      return data
+    }
+
+
 };
 
 

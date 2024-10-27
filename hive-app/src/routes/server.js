@@ -46,17 +46,14 @@ app.post("/api/login", async (req, res) => {
 });
 
 // Ruta para obtener data
-app.get("/api/getnotes", async (req, res)  => {
-
+app.get("/api/getnotes", async (req, res) => {
   try {
     const respuesta = await table.getNotes();
-    res.json(respuesta)
-    res.status(200).send("Devolviendo usuarios");
+    res.status(200).json(respuesta); // Envía la respuesta JSON con estado 200 OK
   } catch (error) {
-    console.error(error);
-    res.status(500).send("El usuario no fue encontrado");
+    res.status(500).send("Ocurrio un error");
   }
-})
+});
 
 // Iniciar el servidor
 app.listen(port, () => {

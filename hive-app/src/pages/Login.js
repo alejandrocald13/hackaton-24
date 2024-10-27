@@ -1,6 +1,23 @@
-import '../main/login.ts';
 import "../styles/Login.css"
 import { useEffect, useState } from 'react';
+
+
+const fetchData = async () => {
+  try {
+      const response = await fetch('http://localhost:3001/api/getnotes'); // Cambia el URL por el de tu API
+
+      // Comprobar si la respuesta fue exitosa
+      if (!response.ok) {
+          throw new Error('Error en la respuesta de la red');
+      }
+
+      const data = await response.json(); // Convertir la respuesta a JSON
+      console.log(data); // Hacer algo con los datos
+  } catch (error) {
+      console.error('Error:', error); // Manejo de errores
+  }
+};
+
 
 function Login() {
     const [userName, setUsername] = useState('');
@@ -13,63 +30,14 @@ function Login() {
         return () => {
             boton.removeEventListener('click', handleSubmit);
         }
-    }, []);
+    });
 
-    const handleSubmit = (event) => {
-      event.preventDefault();
-    
-      /*Crear el cuerpo de la solicitud (datos del usuario)
-      const userData = {
-        name: "PEPE",
-        userName: "PEPITO",
-        password: "1234",
-        email: "pepe@gmail.com",
-        image: "url_de_imagen",
-      };
-    
-      // Hacer la solicitud POST al servidor Express
-      fetch("http://localhost:3001/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      })
-        .then((response) => response.text())
-        .then((data) => {
-          console.log("Respuesta del servidor:", data);
-          alert(data); // Muestra el mensaje del servidor
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });*/
+    const handleSubmit = async (event) => {
+      event.preventDefault(); // Evita el envío por defecto del formulario
 
-
-      const user = {
-        userName: document.getElementById("username").value,
-        password: document.getElementById("password").value,
-      };
-
-      console.log(user)
-      fetch("http://localhost:3001/api/login", {
-  
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      })
-        .then((response) => response.text())
-        .then((data) => {
-          console.log("Respuesta del servidor:", data);
-          alert(data); // Muestra el mensaje del servidor
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-
-    };
-
+      // Llamar a la función
+      fetchData();
+  };
     return (
       <div className="login">
         <div className="elementos_registro">
