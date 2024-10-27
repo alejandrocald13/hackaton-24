@@ -1,7 +1,6 @@
+import '../main/login.ts';
 import "../styles/Login.css"
 import { useEffect, useState } from 'react';
-
-
 
 function Login() {
     const [userName, setUsername] = useState('');
@@ -70,7 +69,7 @@ function Login() {
         });
 
     };
-  
+
     return (
       <div className="login">
         <div className="elementos_registro">
