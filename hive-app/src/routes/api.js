@@ -107,6 +107,25 @@ class Table{
       return userFound
 
     }
+
+    async getNotes(){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+    
+      const data = await db.get(
+        'SELECT * FROM User'
+    );
+    
+      db.all(data, [], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        return rows
+      });
+
+    }
 };
 
 

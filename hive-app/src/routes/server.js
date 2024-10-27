@@ -1,6 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { Table } from "./database.js"; // Importa la función de inserción
+import { Table } from "./api.js"; // Importa la función de inserción
 import cors from 'cors';
 
 
@@ -44,6 +44,19 @@ app.post("/api/login", async (req, res) => {
     res.status(500).send("El usuario no fue encontrado");
   }
 });
+
+// Ruta para obtener data
+app.get("/api/getnotes", async (req, res)  => {
+
+  try {
+    const respuesta = await table.getNotes();
+    res.json(respuesta)
+    res.status(200).send("Devolviendo usuarios");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("El usuario no fue encontrado");
+  }
+})
 
 // Iniciar el servidor
 app.listen(port, () => {
