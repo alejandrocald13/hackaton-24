@@ -20,9 +20,9 @@ app.use(bodyParser.json());
 // AQUI MANEJAMOS LAS ACCIONES QUE SE REALIZARAN EN LA BASE DE DATOS
 // Ruta para inserción de usuarios (/register)
 app.post("/api/register", async (req, res) => {
-  const { name, userName, password, email, image } = req.body;
+  const {name, userName, password, email, iv} = req.body;
   try {
-    await table.insertUser(name, userName, password, email, image);
+    await table.insertUser(name, userName, password, email, iv);
     res.status(200).send("Usuario registrado exitosamente");
   } catch (error) {
     console.error(error);
@@ -45,13 +45,29 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-// Ruta para obtener data
-app.get("/api/getnotes", async (req, res) => {
+// Ruta para insertar notas
+
+app.post("/api/insertNote", async (req, res) => {
+  const {idUser, information, confirmatedDate} = req.body;
   try {
-    const respuesta = await table.getNotes();
-    res.status(200).json(respuesta); // Envía la respuesta JSON con estado 200 OK
+    await table.insertNote(idUser, information, confirmatedDate);
+    res.status(200).send("Nota insertada conrrectamente");
   } catch (error) {
-    res.status(500).send("Ocurrio un error");
+    console.error(error);
+    res.status(500).send("Nota no insertada");
+  }
+});
+
+// Ruta para obtener data
+app.post("/api/getNotes", async (req, res) => {
+  const { idUser } = req.body;
+  try {
+    console.log(idUser)
+    const result = await table.getNotes(idUser);
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("No se pudieron obtener las notas");
   }
 });
 

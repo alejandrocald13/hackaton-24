@@ -2,21 +2,57 @@ import "../styles/Login.css"
 import { useEffect, useState } from 'react';
 
 
-const fetchData = async () => {
-  try {
-      const response = await fetch('http://localhost:3001/api/getnotes'); // Cambia el URL por el de tu API
+const llenar = async () => {
+  const notedata1 = {
+    idUser: "DANI",
+    information: "Hola primera nota",
+    confirmatedDate: "24/10/24"
+  };
 
-      // Comprobar si la respuesta fue exitosa
-      if (!response.ok) {
-          throw new Error('Error en la respuesta de la red');
-      }
+  
 
-      const data = await response.json(); // Convertir la respuesta a JSON
-      console.log(data); // Hacer algo con los datos
-  } catch (error) {
-      console.error('Error:', error); // Manejo de errores
+  // Lógica para el registro
+  try{
+    const response3 = await fetch('http://localhost:3001/api/insertNote', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(notedata1),
+    });
+  
+    if (response3.ok) {
+      alert('NOTA registrado con éxito');
+    } 
+
+  } catch(error){
+    console.error(error);
   }
+
+  const notedata2 = {
+    idUser: "PEPITO",
+    information: "Hola primera nota",
+    confirmatedDate: "24/10/24"
+  };
+
+
+  // Lógica para el registro
+  const response4 = await fetch('http://localhost:3001/api/insertNote', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(notedata2),
+  });
+
+  if (response4.ok) {
+    alert('NOTA registrado con éxito');
+  } else {
+    alert('Error al registrar el NOTA');
+  }
+
+
 };
+
+
+
+
 
 
 function Login() {
@@ -34,9 +70,22 @@ function Login() {
 
     const handleSubmit = async (event) => {
       event.preventDefault(); // Evita el envío por defecto del formulario
-
       // Llamar a la función
-      fetchData();
+      llenar()
+      // Acudir solo notas de ususario
+      const idUser = "DANI"
+      const response = await fetch('http://localhost:3001/api/getNotes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({idUser})
+      });
+      if (response.ok) {
+        // convierte la data en un json con {idUser, idGroup, groupName, createdDate, type (0 - p, 1 - a), creatorUser}
+        const data = await response.json();;
+        console.log(data);
+      }
   };
     return (
       <div className="login">

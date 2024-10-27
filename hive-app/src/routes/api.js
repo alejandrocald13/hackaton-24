@@ -9,16 +9,16 @@ class Table{
 
     };
     // Métodos de inserción
-    async insertUser(name, userName, password, email, image = null) {
+    async insertUser(name, userName, password, email, image = null, iv) {
         const db = await open({
           filename: "./hive-db.db",
           driver: sqlite3.Database,
         });
       
         const stmt = await db.prepare(
-          'INSERT INTO User (name, userName, password, email, image) VALUES (? ,?, ?, ?, ?)'
+          'INSERT INTO User (name, userName, password, email, iv) VALUES (? ,?, ?, ?, ?)'
         );
-        await stmt.run(name, userName, password, email, image);
+        await stmt.run(name, userName, password, email, iv);
         await stmt.finalize();
         await db.close();
         console.log("Usuario insertado y conexión cerrada.");
@@ -31,7 +31,7 @@ class Table{
           });
         
           const stmt = await db.prepare(
-            'INSERT INTO Group (groupName, createdDate, type, creatorUser) VALUES (? ,?, ?, ?)'
+            'INSERT INTO Group_ (groupName, createdDate, type, creatorUser) VALUES (? ,?, ?, ?)'
           );
           await stmt.run(groupName, createdDate, type, creatorUser);
           await stmt.finalize();
@@ -54,32 +54,32 @@ class Table{
           console.log("Usuario insertado y conexión cerrada.");
     };
 
-    async insertNotes(idUser, information, confirmatedDate, image){
+    async insertNote(idUser, information, confirmatedDate){
         const db = await open({
             filename: "./hive-db.db",
             driver: sqlite3.Database,
           });
         
           const stmt = await db.prepare(
-            'INSERT INTO Note (idUser, information, confirmatedDate, image) VALUES (?, ?, ?, ?)'
+            'INSERT INTO Note (idUser, information, confirmatedDate) VALUES (?, ?, ?)'
           );
-          await stmt.run(idUser, information, confirmatedDate, image);
+          await stmt.run(idUser, information, confirmatedDate);
           await stmt.finalize();
           await db.close();
-          console.log("Usuario insertado y conexión cerrada.");
+          console.log("NOTA insertado y conexión cerrada.");
     };
 
 
-    async insertPost(idGroup, idUser, confirmatedDate, information, image){
+    async insertEvent(idEvent, idGroup, idUser, title, information, createdDate, expiredDate){
         const db = await open({
             filename: "./hive-db.db",
             driver: sqlite3.Database,
           });
         
           const stmt = await db.prepare(
-            'INSERT INTO Post (idGroup, idUser, confirmatedDate, information, image) VALUES (?, ?, ?, ?, ?)'
+            'INSERT INTO Post (idEvent, idGroup, idUser, title, information, createdDate, expiredDate) VALUES (?, ?, ?, ?, ?, ?, ?)'
           );
-          await stmt.run(idGroup, idUser, confirmatedDate, information, image);
+          await stmt.run(idEvent, idGroup, idUser, title, information, createdDate, expiredDate);
           await stmt.finalize();
           await db.close();
           console.log("Usuario insertado y conexión cerrada.");
@@ -107,38 +107,41 @@ class Table{
 
     }
 
-    async getNotes(){
+    async getNotes(idUser){
       const db = await open({
         filename: "./hive-db.db",
         driver: sqlite3.Database,
       });
     
       const data = await db.all(
-        'SELECT * FROM User'
+        'SELECT * FROM Note WHERE idUser = ?',
+        [idUser]
     );
       return data
     }
 
-    async getEvents(){
+    async getEvent(idUser){
       const db = await open({
         filename: "./hive-db.db",
         driver: sqlite3.Database,
       });
     
       const data = await db.all(
-        'SELECT * FROM Events'
+        'SELECT * FROM Event WHERE idUser = ?',
+        [idUser]
     );
       return data
     }
 
-    async getGroups(){
+    async getGroups(idUser, idGroup){
       const db = await open({
         filename: "./hive-db.db",
         driver: sqlite3.Database,
       });
     
       const data = await db.all(
-        'SELECT * FROM Groups'
+        'SELECT * FROM Groups WHERE idUser = ? AND idGroup = ?',
+        [idUser, idGroup]
     );
       return data
     }
