@@ -35,7 +35,7 @@ function SingleGroup() {
                     {showId && <li className="id">5454</li>}
                 </ul>
             </div>
-            <Tarjeta grupoId={grupoId} />
+            <Tarjeta />
         </div>
     );
 }

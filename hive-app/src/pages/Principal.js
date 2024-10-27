@@ -17,6 +17,15 @@ function Principal() {
             <Header/>
             <div className="display_tarjetas">
                 <Tarjeta/>
+                <Tarjeta/>
+                <Tarjeta/>
+                <Tarjeta/>
+                <Tarjeta/>
+                <Tarjeta/>
+                <Tarjeta/>
+
+                <Tarjeta/><Tarjeta/>
+
             </div>
         </div>
         
