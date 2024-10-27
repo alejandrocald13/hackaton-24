@@ -8,6 +8,10 @@
     background: #222831;
 }
 
+.nav.show {
+    display: block;
+}
+
 .nav .close {
     float: right;
     width: 1.7em;
@@ -24,7 +28,7 @@
     color: #EEEEEE;
 }
 
-.nav ul{
+.nav ul {
     text-align: justify;
     list-style: none;
     padding: 0;
@@ -32,11 +36,11 @@
     background: #222831;
 }
 
-nav ul a{
+nav ul a {
     text-decoration: none;
 }
 
-.nav ul a li{
+.nav ul a li {
     max-width: 95%;
     font-size: 40px;
     font-weight: 650;
@@ -47,18 +51,40 @@ nav ul a{
     background: #222831;
 }
 
-.nav ul li a:hover{
+.nav ul li a:hover {
     color: #c03f13;
 }
 
-@media only screen and (min-width: 1200px) {
-    .nav ul li a{
-        max-width: 95%;
-        font-size: 50px;
-        font-weight: 650;
-        color: #cdc6be;
-        padding: .75em 2em;
-        display: block;
-        text-decoration: none;
+@media only screen and (min-width: 900px) {
+    /* Ajustes para pantallas de 900px o más */
+    .nav {
+        display: flex;
+        position: static;
+        width: auto;
+        height: auto;
+        background: none;
+    }
+
+    .nav .close {
+        display: none; 
+    }
+
+    .nav ul {
+        display: flex;
+        align-items: center;
+        margin-top: 0;
+        background: none;
+        margin-top: 2.5rem;
+    }
+
+    .nav ul a li {
+        font-size: 1.2rem;
+        padding: 0 1em;
+        color: #1d1d1b;
+        background: none;
+    }
+
+    .nav ul a li:hover {
+        color: #222831;
     }
 }

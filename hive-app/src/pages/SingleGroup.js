@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Header from "../components/Header";
-import Nav from "../components/Nav";
 import Tarjeta from "../components/Tarjeta";
 import "../styles/SingleGroup.css";
 
@@ -55,29 +54,51 @@ function SingleGroup() {
         return true;
     };
 
+    // Funcion para mandar los datos a la base de datos
     const handleCreateEvent = () => {
+        // Verifica si la fecha es válida
         if (validateDate()) {
             const eventData = {
                 ...formData,
-                id: generateId(), // Genera el id automáticamente
+                id: generateId(), // Genera el ID automáticamente
             };
-
-            // Envías los datos al backend aquí
-            console.log("Datos del evento:", eventData);
-            setShowModal(false);
+    
+            // Aquí puedes realizar una solicitud al backend
+            fetch('URL_DEL_BACKEND', {
+                method: 'POST', // Método de la solicitud
+                headers: {
+                    'Content-Type': 'application/json', // Tipo de contenido
+                },
+                body: JSON.stringify(eventData), // Convierte el objeto en JSON
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la creación del evento'); // Manejo de errores
+                }
+                return response.json(); // Procesa la respuesta como JSON
+            })
+            .then(data => {
+                console.log('Evento creado exitosamente:', data); // Respuesta exitosa del backend
+                setShowModal(false); // Cierra el modal
+            })
+            .catch(error => {
+                console.error('Hubo un problema con la solicitud:', error); // Manejo de errores
+            });
+        } else {
+            console.log("La fecha no es válida."); // Mensaje si la fecha no es válida
         }
     };
+    
 
     return (
         <div className="sigle_group">
-            <Nav />
             <Header />
             <div className="info_grupo">
                 <h1 className="titulo">Página por Grupo</h1>
                 <ul className="info">
                     <li>
                         <button className="id_grupo" onClick={toggleIdVisibility}>
-                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                            <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                 <g>
                                     <path fill="none" d="M0 0h24v24H0z"></path>
                                     <path d="M14 14.252V22H4a8 8 0 0 1 10-7.748zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6zm6 4v-3h2v3h3v2h-3v3h-2v-3h-3v-2h3z"></path>
@@ -94,7 +115,7 @@ function SingleGroup() {
                     </li>
                     <li>
                         <button className="crear_evento" onClick={() => setShowModal(true)}>
-                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                            <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                 <g>
                                     <path fill="none" d="M0 0h24v24H0z"></path>
                                     <path d="M17 3h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h4V1h2v2h6V1h2v2zM4 9v10h16V9H4zm2 4h5v4H6v-4z"></path>
