@@ -45,6 +45,32 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
+// Ruta para insertar notas
+
+app.post("/api/insertNote", async (req, res) => {
+  const {idUser, information, confirmatedDate} = req.body;
+  try {
+    await table.insertNote(idUser, information, confirmatedDate);
+    res.status(200).send("Nota insertada conrrectamente");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Nota no insertada");
+  }
+});
+
+// Ruta para obtener data
+app.post("/api/getNotes", async (req, res) => {
+  const { idUser } = req.body;
+  try {
+    console.log(idUser)
+    const result = await table.getNotes(idUser);
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("No se pudieron obtener las notas");
+  }
+});
+
 // Iniciar el servidor
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);

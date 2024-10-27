@@ -8,7 +8,6 @@ import { isCompositeComponent } from "react-dom/test-utils";
 
 // Función para insertar usuarios en la base de datos
 class Table{
-  
     constructor(){
         
     };
@@ -23,10 +22,12 @@ class Table{
         const encryptedText = encrypt(password);
 
         const stmt = await db.prepare(
+
           'INSERT INTO User (name, userName, password, email, image, iv, key) VALUES (? ,?, ?, ?, ?, ?, ?)'
         );
 
         await stmt.run(name, userName, encryptedText.encryptedData, email, image, encryptedText.iv, encryptedText.key);
+
         await stmt.finalize();
         await db.close();
         console.log("Usuario insertado y conexión cerrada.");
@@ -39,7 +40,7 @@ class Table{
           });
         
           const stmt = await db.prepare(
-            'INSERT INTO Group (groupName, createdDate, type, creatorUser) VALUES (? ,?, ?, ?)'
+            'INSERT INTO Group_ (groupName, createdDate, type, creatorUser) VALUES (? ,?, ?, ?)'
           );
           await stmt.run(groupName, createdDate, type, creatorUser);
           await stmt.finalize();
@@ -62,32 +63,32 @@ class Table{
           console.log("Usuario insertado y conexión cerrada.");
     };
 
-    async insertNotes(idUser, information, confirmatedDate, image){
+    async insertNote(idUser, information, confirmatedDate){
         const db = await open({
             filename: "./hive-db.db",
             driver: sqlite3.Database,
           });
         
           const stmt = await db.prepare(
-            'INSERT INTO Note (idUser, information, confirmatedDate, image) VALUES (?, ?, ?, ?)'
+            'INSERT INTO Note (idUser, information, confirmatedDate) VALUES (?, ?, ?)'
           );
-          await stmt.run(idUser, information, confirmatedDate, image);
+          await stmt.run(idUser, information, confirmatedDate);
           await stmt.finalize();
           await db.close();
-          console.log("Usuario insertado y conexión cerrada.");
+          console.log("NOTA insertado y conexión cerrada.");
     };
 
 
-    async insertPost(idGroup, idUser, confirmatedDate, information, image){
+    async insertEvent(idEvent, idGroup, idUser, title, information, createdDate, expiredDate){
         const db = await open({
             filename: "./hive-db.db",
             driver: sqlite3.Database,
           });
         
           const stmt = await db.prepare(
-            'INSERT INTO Post (idGroup, idUser, confirmatedDate, information, image) VALUES (?, ?, ?, ?, ?)'
+            'INSERT INTO Post (idEvent, idGroup, idUser, title, information, createdDate, expiredDate) VALUES (?, ?, ?, ?, ?, ?, ?)'
           );
-          await stmt.run(idGroup, idUser, confirmatedDate, information, image);
+          await stmt.run(idEvent, idGroup, idUser, title, information, createdDate, expiredDate);
           await stmt.finalize();
           await db.close();
           console.log("Usuario insertado y conexión cerrada.");
@@ -133,6 +134,59 @@ class Table{
       return userFound
 
     }
+
+    async getNotes(idUser){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+    
+      const data = await db.all(
+        'SELECT * FROM Note WHERE idUser = ?',
+        [idUser]
+    );
+      return data
+    }
+
+    async getEvent(idUser){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+    
+      const data = await db.all(
+        'SELECT * FROM Event WHERE idUser = ?',
+        [idUser]
+    );
+      return data
+    }
+
+    async getGroups(idUser, idGroup){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+    
+      const data = await db.all(
+        'SELECT * FROM Groups WHERE idUser = ? AND idGroup = ?',
+        [idUser, idGroup]
+    );
+      return data
+    }
+
+    async getGroup(){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+    
+      const data = await db.all(
+        'SELECT * FROM Group'
+    );
+      return data
+    }
+
+
 };
 
 
