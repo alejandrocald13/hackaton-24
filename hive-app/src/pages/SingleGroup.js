@@ -5,12 +5,67 @@ import Tarjeta from "../components/Tarjeta";
 import "../styles/SingleGroup.css";
 
 function SingleGroup() {
-    // Estado para controlar la visibilidad del elemento con el ID
     const [showId, setShowId] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [formData, setFormData] = useState({
+        title: "",
+        description: "",
+        day: "",
+        month: "",
+        year: "",
+    });
+    const [error, setError] = useState("");
 
-    // Función para alternar la visibilidad
     const toggleIdVisibility = () => {
         setShowId(!showId);
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    // Función para generar un id único
+    const generateId = () => {
+        return Math.floor(Math.random() * 100000); // Genera un número aleatorio de 5 dígitos
+    };
+
+    const validateDate = () => {
+        const day = parseInt(formData.day, 10);
+        const month = parseInt(formData.month, 10);
+        const year = parseInt(formData.year, 10);
+
+        if (isNaN(day) || isNaN(month) || isNaN(year)) {
+            setError("Todos los campos de fecha deben ser números.");
+            return false;
+        }
+        if (day < 1 || day > 31) {
+            setError("El día debe estar entre 1 y 31.");
+            return false;
+        }
+        if (month < 1 || month > 12) {
+            setError("El mes debe estar entre 1 y 12.");
+            return false;
+        }
+        if (year < 1900 || year > new Date().getFullYear()) {
+            setError("El año debe ser válido.");
+            return false;
+        }
+        setError("");
+        return true;
+    };
+
+    const handleCreateEvent = () => {
+        if (validateDate()) {
+            const eventData = {
+                ...formData,
+                id: generateId(), // Genera el id automáticamente
+            };
+
+            // Envías los datos al backend aquí
+            console.log("Datos del evento:", eventData);
+            setShowModal(false);
+        }
     };
 
     return (
@@ -21,7 +76,14 @@ function SingleGroup() {
                 <h1 className="titulo">Página por Grupo</h1>
                 <ul className="info">
                     <li>
-                        <button className="id_grupo" onClick={toggleIdVisibility}><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><g><path fill="none" d="M0 0h24v24H0z"></path><path d="M14 14.252V22H4a8 8 0 0 1 10-7.748zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6zm6 4v-3h2v3h3v2h-3v3h-2v-3h-3v-2h3z"></path></g></svg></button>
+                        <button className="id_grupo" onClick={toggleIdVisibility}>
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                <g>
+                                    <path fill="none" d="M0 0h24v24H0z"></path>
+                                    <path d="M14 14.252V22H4a8 8 0 0 1 10-7.748zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6zm6 4v-3h2v3h3v2h-3v3h-2v-3h-3v-2h3z"></path>
+                                </g>
+                            </svg>
+                        </button>
                     </li>
                     <li>
                         <button>
@@ -30,12 +92,72 @@ function SingleGroup() {
                             </svg>
                         </button>
                     </li>
-                    <li><button><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><g><path fill="none" d="M0 0h24v24H0z"></path><path d="M17 3h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h4V1h2v2h6V1h2v2zM4 9v10h16V9H4zm2 4h5v4H6v-4z"></path></g></svg></button></li>
-                    {/* Mostrar o esconder el <li> con el id */}
+                    <li>
+                        <button className="crear_evento" onClick={() => setShowModal(true)}>
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                <g>
+                                    <path fill="none" d="M0 0h24v24H0z"></path>
+                                    <path d="M17 3h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h4V1h2v2h6V1h2v2zM4 9v10h16V9H4zm2 4h5v4H6v-4z"></path>
+                                </g>
+                            </svg>
+                        </button>
+                    </li>
                     {showId && <li className="id">5454</li>}
                 </ul>
             </div>
-            <Tarjeta />
+            <div className="eventos">
+                <Tarjeta />
+                <Tarjeta />
+            </div>
+
+            {/* Modal de Crear Evento */}
+            {showModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <h2>Crear Nuevo Evento</h2>
+                        <input
+                            type="text"
+                            name="title"
+                            placeholder="Título del evento"
+                            value={formData.title}
+                            onChange={handleInputChange}
+                        />
+                        <input
+                            type="text"
+                            name="description"
+                            placeholder="Descripción"
+                            value={formData.description}
+                            onChange={handleInputChange}
+                        />
+                        <input
+                            type="number"
+                            name="day"
+                            placeholder="Día"
+                            value={formData.day}
+                            onChange={handleInputChange}
+                        />
+                        <input
+                            type="number"
+                            name="month"
+                            placeholder="Mes"
+                            value={formData.month}
+                            onChange={handleInputChange}
+                        />
+                        <input
+                            type="number"
+                            name="year"
+                            placeholder="Año"
+                            value={formData.year}
+                            onChange={handleInputChange}
+                        />
+
+                        {error && <p className="error">{error}</p>}
+
+                        <button onClick={handleCreateEvent}>Crear Evento</button>
+                        <button onClick={() => setShowModal(false)}>Cancelar</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

@@ -46,3 +46,102 @@
     font-size: 30px;
     cursor: pointer;
 }
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .modal-content h2 {
+    font-size: 24px;
+    margin-bottom: 1rem;
+  }
+  
+  .modal-content input,
+  .modal-content textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .modal-content button {
+    margin: 10px 5px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .modal-content button:hover {
+    background-color: #0056b3;
+  }
+  
+
+
+/* Estilos para pantallas grandes (desde 900px) */
+@media (min-width: 900px) {
+    .sigle_group {
+        padding: 2rem 4rem;
+    }
+
+    .modal-content {
+        width: 400px;
+    }
+
+    .sigle_group .info_grupo h1 {
+        font-size: 40px;
+    }
+
+    .grupo-title {
+        font-size: 22px;
+    }
+
+    .grupo-content {
+        font-size: 18px;
+    }
+
+    .grupos .crear-grupo-btn {
+        min-width: 15rem;
+        max-width: 5rem;
+        padding: 10px 20px;
+        font-size: 16px;
+        margin: 10px 0 27px 0;
+    }
+
+    .sigle_group .info_grupo {
+        justify-content: space-between;
+    }
+
+    .sigle_group .info_grupo ul {
+        justify-content: flex-end;
+    }
+
+    .sigle_group .info_grupo ul  li svg{
+        font-size: 2.4rem;
+    }
+    .eventos {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}

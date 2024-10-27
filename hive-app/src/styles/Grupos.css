@@ -161,5 +161,9 @@
     margin: 10px 0 27px 0;
   }
 
+  .grupos .grupo-categorias {
+    display: flex;
+    justify-content: space-around;
+  }
   
 }
