@@ -1,5 +1,6 @@
 .nota {
     width: 300px;
+    min-height: 249px;
     max-height: 250px;
     padding: 20px;
     border: 2px dashed #999999;
@@ -15,6 +16,20 @@
     transition: transform 0.2s ease-in-out;
 }
 
+
+.nota .nota-description {
+    max-width: 85%;
+}
+
+.nota .delete-note-btn {
+    border: none;
+    float: right;
+}
+
+.nota .delete-note-btn svg{
+    font-size: 1rem;
+    color: #1d1d1b;
+}
 
 .nota:hover {
     transform: translateY(-5px);
