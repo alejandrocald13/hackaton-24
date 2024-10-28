@@ -59,7 +59,6 @@ class Table{
           await stmt.run(idUser, idGroup);
           await stmt.finalize();
           await db.close();
-          console.log("Usuario insertado y conexión cerrada.");
     };
 
     async insertNotes(idUser, information, confirmatedDate, image){
@@ -142,15 +141,16 @@ class Table{
         driver: sqlite3.Database,
       });
     
-      const stmt = await db.get(
-        'SELECT * FROM Groups JOIN Group_ ON Groups.idGroup = Group_.groupName WHERE Groups.idUser = ?',
-        [idUser]
-    );
+      const stmt = await db.prepare(
+        'SELECT * FROM Groups JOIN Group_ ON Groups.idGroup = Group_.idGroup WHERE Groups.idUser = ?');
+
+    const registros = stmt.all(idUser);
+    await stmt.finalize();
 
     let result;
 
-    if (stmt) {
-        result = stmt
+    if (registros) {
+        result = registros
       }
       else{
         result = null;
@@ -161,6 +161,64 @@ class Table{
       return result;
 
 
+    }
+
+    async createGroup(groupName, createdDate, type_, creatorUser){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+
+      const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&';
+      let uniqueGroupCode = '';
+
+      while (true){
+        for (let i = 0; i < 7; i++) {
+          const indiceAleatorio = Math.floor(Math.random() * caracteres.length);
+          uniqueGroupCode += caracteres.charAt(indiceAleatorio);
+        }
+        const verify = await db.get('SELECT * FROM Group_ WHERE idGroup = ?');
+
+        if (verify){
+          continue;
+        }
+        else{
+          break;
+        }
+
+      }
+    
+      const stmt = await db.prepare(
+        'INSERT INTO Group_ (groupName, createdDate, type, creatorUser, idGroup) VALUES (?, ?, ?, ?, ?)',
+      );
+      
+      this.insertGroups(creatorUser, uniqueGroupCode);
+
+      let boolType = 0;
+
+      if (type_ === "Académico"){
+        boolType = 1;
+      }
+
+      await stmt.run(groupName, createdDate, boolType, creatorUser, uniqueGroupCode)
+      await stmt.finalize();
+      await db.close();
+
+    }
+
+    async createEvent(idUser, idGroup, title, info, createdDate, expiredDate){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+
+      const stmt = await db.prepare(
+        'INSERT INTO Event (idUser, idGroup, title, information, createdDate, expiredDate) VALUES (?, ?, ?, ?, ?, ?)',
+      );
+      
+      await stmt.run(idUser, idGroup, title, info, createdDate, expiredDate);
+      await stmt.finalize();
+      await db.close();
     }
 
 

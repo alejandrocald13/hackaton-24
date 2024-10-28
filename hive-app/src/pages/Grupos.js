@@ -15,28 +15,26 @@ function Grupos() {
   });
   const [integranteInput, setIntegranteInput] = useState(""); 
 
+  localStorage.setItem('group', "");
+
   // Función para cargar los grupos desde la base de datos
-  // Roberto Calderon 
   const fetchGrupos = async () => {
-
-    // const username = localStorage.getItem('username'); // para el login final
-
+    localStorage.setItem('group', "");
     const username = "alejandrocald13";
-
-    // llama a la api
-
     const response = await fetch('http://localhost:3001/api/fetch-groups', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({username}),
+      body: JSON.stringify({ username }),
     });
 
     if (response.ok) {
-      // convierte la data en un json con {idUser, idGroup, groupName, createdDate, type (0 - p, 1 - a), creatorUser}
       const data = await response.json();
-      setGrupos(data);
+      const formattedGroups = data.map(grupo => ({
+        ...grupo,
+        tipo: grupo.type === 0 ? "Personal" : "Académico",
+      }));
+      setGrupos(formattedGroups);
     }
-
   };
 
   useEffect(() => {
@@ -80,32 +78,43 @@ function Grupos() {
 
   // Mandar la info del nuevo grupo creado a la base de datos 
   const agregarGrupo = async () => {
-    const userId = localStorage.getItem("userId"); // Se supone que tienes el id guardado en localStorage
-    const fechaCreacion = new Date().toISOString(); // Fecha actual en formato ISO
     
+    let userId = localStorage.getItem("userId");
+    const fechaCreacion = new Date().toISOString(); 
+    
+    userId = "alejandrocald13";
+
     const nuevoGrupoObj = {
       title: nuevoGrupo.title,
       tipo: nuevoGrupo.tipo,
-      fechaCreacion,
-      userId
+      fechaCreacion: fechaCreacion,
+      userId: userId,
     };
     
     try {
-      await fetch("URL_DE_TU_API/crear-grupo", {
+      const response = await fetch("http://localhost:3001/api/registerGroup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(nuevoGrupoObj),
       });
+
+      if (response.ok) {
+        alert('Grupo registrado con éxito');
+      } else {
+        alert('Error al registrar el grupo.');
+      }
+
       cerrarModal(); 
-      fetchGrupos(); 
+      fetchGrupos();
+
     } catch (error) {
       console.error("Error al agregar el grupo:", error);
     }
   };
 
-
-  const handleNavigate = (tipo) => {
-    navigate(`/${tipo.toLowerCase()}-grupos`); 
+  const handleNavigate = (id) => {
+    // localStorage.setItem('group', codigo unico del grupo)
+    navigate(/grupo/`${id}`); // Cambia la ruta a la que necesitas redirigir
   };
 
   const toggleSection = (index) => {
@@ -170,7 +179,7 @@ function Grupos() {
               .filter(grupo => grupo.tipo === "Personal")
               .map((grupo, index) => (
                 <div key={index} className="grupo-item">
-                  <div className="grupo-title" onClick={() => handleNavigate("personal")}>
+                  <div className="grupo-title" onClick={() => handleNavigate(grupo.id)}>
                     {grupo.groupName}
                   </div>
                 </div>
@@ -190,7 +199,7 @@ function Grupos() {
               .filter(grupo => grupo.tipo === "Académico")
               .map((grupo, index) => (
                 <div key={index} className="grupo-item">
-                  <div className="grupo-title" onClick={() => handleNavigate("academico")}>
+                  <div className="grupo-title" onClick={() => handleNavigate(grupo.id)}>
                     {grupo.groupName}
                   </div>
                 </div>

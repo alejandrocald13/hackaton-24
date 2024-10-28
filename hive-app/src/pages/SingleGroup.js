@@ -46,7 +46,7 @@ function SingleGroup() {
             setError("El mes debe estar entre 1 y 12.");
             return false;
         }
-        if (year < 1900 || year > new Date().getFullYear()) {
+        if (year < 1900 || year <= new Date().getFullYear()) {
             setError("El año debe ser válido.");
             return false;
         }
@@ -58,13 +58,21 @@ function SingleGroup() {
     const handleCreateEvent = () => {
         // Verifica si la fecha es válida
         if (validateDate()) {
+            const idUser = localStorage.getItem('user');
+            const idGroup = localStorage.getItem('group');
+
             const eventData = {
-                ...formData,
-                id: generateId(), // Genera el ID automáticamente
+                idUser: 'alejandrocald13',
+                idGroup: 'bqwLC3Y',
+                title: formData.title,
+                description: formData.description,
+                createdDate: new Date().toISOString(),
+                expiredDate: new Date(formData.year, formData.month - 1, formData.day).toISOString()
             };
+
     
             // Aquí puedes realizar una solicitud al backend
-            fetch('URL_DEL_BACKEND', {
+            fetch('http://localhost:3001/api/registerEvent', {
                 method: 'POST', // Método de la solicitud
                 headers: {
                     'Content-Type': 'application/json', // Tipo de contenido

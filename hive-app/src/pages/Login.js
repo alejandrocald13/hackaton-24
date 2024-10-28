@@ -7,11 +7,13 @@ function Login() {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  localStorage.setItem('user', '')
 
   const handleSubmit = async (event) => {
+    localStorage.setItem('user', '')
+
     event.preventDefault();
     if (isRegistering) {
-
       // Lógica para el registro
       const response = await fetch('http://localhost:3001/api/register', {
         method: 'POST',
@@ -43,6 +45,8 @@ function Login() {
 
       if (response.ok) {
         alert('Inicio de sesión exitoso');
+        localStorage.setItem('user', username)
+
       } else {
         alert('Usuario o contraseña incorrectos');
       }

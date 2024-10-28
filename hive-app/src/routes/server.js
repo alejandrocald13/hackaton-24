@@ -57,6 +57,30 @@ app.post("/api/fetch-groups", async (req, res) => {
     
 });
 
+app.post("/api/registerGroup", async (req, res) => {
+  const { title, tipo, fechaCreacion, userId } = req.body;
+  try {
+
+    await table.createGroup(title, fechaCreacion, tipo, userId);
+    res.status(200).send("Grupo creado exitosamente.");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error al crear un nuevo grupo.");
+  }
+});
+
+app.post("/api/registerEvent", async (req, res) => {
+  const { idUser, idGroup, title, description,  createdDate, expiredDate} = req.body;
+  try {
+
+    await table.createEvent(idUser, idGroup, title, description, createdDate, expiredDate);
+    res.status(200).send("Grupo creado exitosamente.");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error al crear un nuevo grupo.");
+  }
+});
+
 // Iniciar el servidor
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
