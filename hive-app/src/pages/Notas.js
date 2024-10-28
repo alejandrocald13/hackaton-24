@@ -3,13 +3,15 @@ import "../styles/Notas.css";
 import Nota from "../components/Nota";
 
 function Notas() {
-    const [selectedNota, setSelectedNota] = useState(null);
+
     const [information, setDescription] = useState('');
     const [fechaCompleta, setfechaCompleta] = useState('');
     const [notas, setNotas] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
-    
+
+    // Hay que obtener al usuario
+    // const user = usuario
     const toggleModal = () => {
         setIsOpen(!isOpen);
     };
@@ -45,8 +47,8 @@ function Notas() {
             body: JSON.stringify({ idNote })
         });
         if (response.ok) {
-            const data = await response.json();
-            console.log("Se eliminó correctamente", data);
+            await response.json();
+            alert("Se elimino correctamente")
             // Filtrar la nota eliminada del estado
             setNotas(prevNotas => prevNotas.filter(nota => nota.idNote !== idNote));
         } else {

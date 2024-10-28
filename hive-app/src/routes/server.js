@@ -74,11 +74,10 @@ app.post("/api/getNotes", async (req, res) => {
 
 // Ruta para eliminar
 app.post("/api/deleteNotes", async (req, res) => {
-  const { idNote, idUser } = req.body;
+  const { idNote} = req.body;
   try {
     console.log(idNote)
-    const result = await table.deleteNotes(idNote, idUser);
-    console.log(result)
+    const result = await table.deleteNotes(idNote);
     res.json(result);
   } catch (error) {
     console.error(error);

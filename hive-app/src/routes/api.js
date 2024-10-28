@@ -189,12 +189,13 @@ class Table{
     }
 
     // Eliminar
-    async deleteNotes(idNotes, idUser){
+    // Se modifico el delete con idNote y idUser a solo idNote
+    async deleteNotes(idNotes){
       const db = await open({
         filename: "./hive-db.db",
         driver: sqlite3.Database,
       });
-      const result = await db.run("DELETE FROM Note WHERE idNote = ? AND idUser = ?", [idNotes, idUser]);
+      const result = await db.run("DELETE FROM Note WHERE idNote = ?", [idNotes]);
       return result
     }
 };
