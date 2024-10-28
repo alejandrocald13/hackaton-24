@@ -48,21 +48,22 @@ function SingleGroup() {
 
     const getMembers = async () => {
         const idGroup = localStorage.getItem('group');
-
         const response = await fetch('http://localhost:3001/api/getMembers', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ idGroup }),
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idGroup }),
         });
     
         if (response.ok) {
-          const data = await response.json();
-          console.log(data);
+            const data = await response.json();
+            console.log(data);
         }
     };
 
     useEffect(() => {
         getEvents();
+        getMembers();
+        console.log(localStorage.getItem('group'))
     }, []);
 
     const validateDate = () => {
@@ -82,7 +83,7 @@ function SingleGroup() {
             setError("El mes debe estar entre 1 y 12.");
             return false;
         }
-        if (year < 1900 || year <= new Date().getFullYear()) {
+        if (year < 1900 || year < new Date().getFullYear()) {
             setError("El año debe ser válido.");
             return false;
         }
@@ -97,14 +98,18 @@ function SingleGroup() {
             const idUser = localStorage.getItem('user');
             const idGroup = localStorage.getItem('group');
 
+            console.log(idUser, idGroup);
+
             const eventData = {
-                idUser: idUser,
+                idUser: "alejandrocald13",
                 idGroup: idGroup,
                 title: formData.title,
                 description: formData.description,
                 createdDate: new Date().toISOString(),
                 expiredDate: new Date(formData.year, formData.month - 1, formData.day).toISOString()
             };
+
+            console.log(eventData)
 
     
             // Aquí puedes realizar una solicitud al backend
@@ -119,10 +124,9 @@ function SingleGroup() {
                 if (!response.ok) {
                     throw new Error('Error en la creación del evento'); // Manejo de errores
                 }
-                return response.json(); // Procesa la respuesta como JSON
             })
             .then(data => {
-                console.log('Evento creado exitosamente:', data); // Respuesta exitosa del backend
+                alert('Evento creado exitosamente:')
                 setShowModal(false); // Cierra el modal
             })
             .catch(error => {

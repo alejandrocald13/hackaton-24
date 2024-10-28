@@ -19,7 +19,11 @@ function Grupos() {
 
   // Función para cargar los grupos desde la base de datos
   const fetchGrupos = async () => {
-    const username = "alejandrocald13";
+
+    let username = localStorage.getItem('user');
+    
+    username = "alejandrocald13"
+
     const response = await fetch('http://localhost:3001/api/fetch-groups', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

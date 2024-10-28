@@ -44,7 +44,7 @@ function Login() {
 
       if (response.ok) {
         alert('Inicio de sesión exitoso');
-        localStorage.setItem('user', username)
+        localStorage.setItem('user', username);
 
       } else {
         alert('Usuario o contraseña incorrectos');
