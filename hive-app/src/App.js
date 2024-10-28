@@ -14,7 +14,7 @@ function App() {
       <Route path='/principal' element={<Principal/>}/> 
       <Route path='/grupos-generales' element={<Grupos/>}/> 
       <Route path='/grupo' element={<SingleGroup/>}/>
-      <Route path='/calendario' element={<Calendario/>}/> 
+      <Route path='/calendario' element={<Calendario/>}/>
       <Route path="*" element={<Navigate to="/" replace={true} />} exact={true} />
       </Routes>
     </BrowserRouter>

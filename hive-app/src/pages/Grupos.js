@@ -112,9 +112,10 @@ function Grupos() {
     }
   };
 
-  const handleNavigate = (id) => {
+  const handleNavigate = (id, nombre) => {
+    console.log(nombre)
     // localStorage.setItem('group', codigo unico del grupo)
-    navigate(/grupo/`${id}`); // Cambia la ruta a la que necesitas redirigir
+    navigate(`/grupo`); // Cambia la ruta a la que necesitas redirigir
   };
 
   const toggleSection = (index) => {
@@ -179,7 +180,7 @@ function Grupos() {
               .filter(grupo => grupo.tipo === "Personal")
               .map((grupo, index) => (
                 <div key={index} className="grupo-item">
-                  <div className="grupo-title" onClick={() => handleNavigate(grupo.id)}>
+                  <div className="grupo-title" onClick={() => handleNavigate(grupo.id, grupo)}>
                     {grupo.groupName}
                   </div>
                 </div>
@@ -199,7 +200,7 @@ function Grupos() {
               .filter(grupo => grupo.tipo === "Académico")
               .map((grupo, index) => (
                 <div key={index} className="grupo-item">
-                  <div className="grupo-title" onClick={() => handleNavigate(grupo.id)}>
+                  <div className="grupo-title" onClick={() => handleNavigate(grupo.id, grupo)}>
                     {grupo.groupName}
                   </div>
                 </div>
