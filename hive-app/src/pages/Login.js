@@ -2,59 +2,6 @@ import "../styles/Login.css"
 import { useEffect, useState } from 'react';
 
 
-const llenar = async () => {
-  const notedata1 = {
-    idUser: "DANI",
-    information: "Hola primera nota",
-    confirmatedDate: "24/10/24"
-  };
-
-  
-
-  // Lógica para el registro
-  try{
-    const response3 = await fetch('http://localhost:3001/api/insertNote', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(notedata1),
-    });
-  
-    if (response3.ok) {
-      alert('NOTA registrado con éxito');
-    } 
-
-  } catch(error){
-    console.error(error);
-  }
-
-  const notedata2 = {
-    idUser: "PEPITO",
-    information: "Hola primera nota",
-    confirmatedDate: "24/10/24"
-  };
-
-
-  // Lógica para el registro
-  const response4 = await fetch('http://localhost:3001/api/insertNote', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(notedata2),
-  });
-
-  if (response4.ok) {
-    alert('NOTA registrado con éxito');
-  } else {
-    alert('Error al registrar el NOTA');
-  }
-
-
-};
-
-
-
-
-
-
 function Login() {
   const [isRegistering, setIsRegistering] = useState(false);
   const [username, setUsername] = useState('');

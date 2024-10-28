@@ -55,7 +55,7 @@
 }
 
 
-.open-modal-btn {
+.open-modal-btn, .cancel-modal-btn {
     padding: 10px 20px;
     background-color: #393E46;
     color: white;

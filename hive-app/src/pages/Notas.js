@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/Notas.css";
 import Nota from "../components/Nota";
 
 
 function Notas() {
-    
-    const [description, setDescription] = useState('');
+    const [selectedNota, setSelectedNota] = useState(null);
+    const [information, setDescription] = useState('');
     const [fechaCompleta, setfechaCompleta] = useState('');
     const [notas, setNotas] = useState([]); // Arreglo para almacenar las notas de manera local o cuando se tenga la bd con la bd
 
@@ -14,34 +14,74 @@ function Notas() {
         setIsOpen(!isOpen);
     };
 
-    /*useEffect(() => {
-        fetch("URL_DE_TU_API")
-            .then(response => response.json())
-            .then(data => {
-                // Asegúrate de que `data` tenga la estructura correcta antes de almacenarlo
-                if (Array.isArray(data)) {
-                    setNotas(data); // Almacena los datos en el estado `notas`
-                } else {
-                    console.error("Datos de la API no son un array:", data);
-                }
-            })
-            .catch(error => console.error("Error al cargar las notas:", error));
-    }, []);*/
+    // mostrar notas
+    const fetchNotas = async () => {
+        
+        const idUser = "DANI";
+        const response = await fetch('http://localhost:3001/api/getNotes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idUser })
+        });
+        if (response.ok) {
+            const data = await response.json();
+            if (Array.isArray(data)) {
+                setNotas(data);
+                console.log("loa datos si estan chidos")
+            } else {
+                console.error("Los datos recibidos no son un arreglo:", data);
+            }
+            // Asegúrate de que 'data' tenga la estructura correcta
+        }
+    };
+    useEffect(() => {
+        fetchNotas();
+    }, []);
 
-    const handleSave = () => {
+    // Eliminar Nota
+    const handleDelete = async() => {
+        const idNote = selectedNota?.idNote;
+        const idUser = selectedNota?.idUser;
+
+        const response = await fetch('http://localhost:3001/api/deleteNotes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({idNote, idUser})
+        });
+        if (response.ok) {
+            const data = await response.json();
+            console.log("Se elimino correctamente", data)
+            setNotas(prevNotas => [...prevNotas]);
+            // Asegúrate de que 'data' tenga la estructura correcta
+        }else{
+            console.log("No se elimino")
+        }
+
+    };
+    
+    // Ingresar nota
+    const handleSave = async() => {
         const fechaActual = new Date();
         const meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
         const dia = fechaActual.getDate();
         const anio = fechaActual.getFullYear();
-        const fechaCompleta = `${dia} ${meses[fechaActual.getMonth()]} ${anio}`;
-        setfechaCompleta(fechaCompleta);
+        const confirmatedDate = `${dia} ${fechaActual.getMonth()} ${anio}`;
+        setfechaCompleta(confirmatedDate);
 
-        // Crear nueva nota con descripción y fecha
-        const nuevaNota = { description, fechaCompleta };
-        setNotas([...notas, nuevaNota]); // Agregar nueva nota al arreglo de las notas
-        
-        console.log("descripcion: ", description);
-        console.log(fechaCompleta);
+        const idUser = "DANI";
+        const nuevaNota = { idUser, information, confirmatedDate};
+
+        const response = await fetch('http://localhost:3001/api/insertNote', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(nuevaNota),
+          });
+          if (response.ok) {
+            alert('Se ha registrado la nota');
+            setNotas(prevNotas => [...prevNotas, nuevaNota]);
+          } else {
+            alert('Error al registrar la nota');
+          }
 
         setDescription("");
         setIsOpen(false);
@@ -59,6 +99,7 @@ function Notas() {
         <div className="notas-container">
             <div className="button-container">
                 <button className="open-modal-btn" onClick={toggleModal}>Agregar nota</button>
+                <button className="cancel-modal-btn" onClick={handleDelete}>Eliminar pendiente</button>
             </div>
             <div className=".modal-container-notas">
                 
@@ -70,11 +111,12 @@ function Notas() {
                         <input
                             type="text"
                             id="Descripción de la nota"
-                            value={description}
+                            value={information}
                             onChange={(e) => setDescription(e.target.value)}
                             placeholder="Ingresa la nota a guardar"
                         />
                         <button className="close-modal-btn" onClick={handleSave}>Guardar</button>
+                        
                     </div>
                 </div>
             )}
@@ -91,15 +133,22 @@ function Notas() {
             </div>*/}
             {notas.length > 0 && (
                 <div className="notas">
-                    {notas.map((nota, index) => (
-                        <Nota
-                            key={index}
-                            description={nota.description}
-                            /* A la hora de recuperar la fecha de la base se empleara esto para dejarlo en el formato de la nota dia - mes año*/
-                            dia={nota.fechaCompleta.split(" ")[0]} 
-                            mesNombre_anio={nota.fechaCompleta.split(" ").slice(1).join(" ")}
-                        />
-                    ))}
+                    {notas.map((nota, index) => {
+                        return (
+                            <div onClick={() => {
+                                    setSelectedNota(nota);
+                                    console.log("Detalles de la Nota:", nota); // Imprimir detalles en consola
+                                }} 
+                                key={index}
+                            >
+                                <Nota
+                                    description={nota.information || "Sin descripción"}
+                                    dia={nota.confirmatedDate ? nota.confirmatedDate.split(" ")[0] : "Sin día"} 
+                                    mesNombre_anio={nota.confirmatedDate ? nota.confirmatedDate.split(" ").slice(1).join(" ") : "Sin mes/año"}
+                                />
+                            </div>
+                        );
+                    })}
                 </div>
             )}
             

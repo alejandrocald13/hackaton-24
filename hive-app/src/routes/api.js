@@ -1,8 +1,8 @@
 import { open } from "sqlite";
 import sqlite3 from "sqlite3";
 import { encrypt , decrypt } from "./crypt.js";
-import { useEffect } from "react";
-import { isCompositeComponent } from "react-dom/test-utils";
+//import { useEffect } from "react";
+//import { isCompositeComponent } from "react-dom/test-utils";
 
 // Hacer clase base de datos
 
@@ -78,7 +78,6 @@ class Table{
           console.log("NOTA insertado y conexión cerrada.");
     };
 
-
     async insertEvent(idEvent, idGroup, idUser, title, information, createdDate, expiredDate){
         const db = await open({
             filename: "./hive-db.db",
@@ -94,6 +93,7 @@ class Table{
           console.log("Usuario insertado y conexión cerrada.");
     };
 
+    // Validar usuarios
     async validateUser(userName, password, email = null){
       const db = await open({
         filename: "./hive-db.db",
@@ -135,6 +135,7 @@ class Table{
 
     }
 
+    // Obtener data
     async getNotes(idUser){
       const db = await open({
         filename: "./hive-db.db",
@@ -142,8 +143,9 @@ class Table{
       });
     
       const data = await db.all(
-        'SELECT * FROM Note WHERE idUser = ?',
+        'SELECT * FROM Note JOIN User ON Note.idUser = User.userName WHERE Note.idUser = ?',
         [idUser]
+ 
     );
       return data
     }
@@ -186,7 +188,15 @@ class Table{
       return data
     }
 
-
+    // Eliminar
+    async deleteNotes(idNotes, idUser){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+      const result = await db.run("DELETE FROM Note WHERE idNote = ? AND idUser = ?", [idNotes, idUser]);
+      return result
+    }
 };
 
 

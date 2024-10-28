@@ -35,9 +35,10 @@ function SingleGroup() {
                     {showId && <li className="id">5454</li>}
                 </ul>
             </div>
-            <Tarjeta grupoId={grupoId} />
+            
         </div>
     );
 }
 
+//<Tarjeta grupoId={grupoId} /> ENTRE LOS ULTIMOS DIV
 export default SingleGroup;

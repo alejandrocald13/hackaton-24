@@ -64,12 +64,28 @@ app.post("/api/getNotes", async (req, res) => {
   try {
     console.log(idUser)
     const result = await table.getNotes(idUser);
+    console.log(result)
     res.json(result);
   } catch (error) {
     console.error(error);
     res.status(500).send("No se pudieron obtener las notas");
   }
 });
+
+// Ruta para eliminar
+app.post("/api/deleteNotes", async (req, res) => {
+  const { idNote, idUser } = req.body;
+  try {
+    console.log(idNote)
+    const result = await table.deleteNotes(idNote, idUser);
+    console.log(result)
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("No se pudieron obtener las notas");
+  }
+});
+
 
 // Iniciar el servidor
 app.listen(port, () => {
