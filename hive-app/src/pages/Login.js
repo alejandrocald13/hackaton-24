@@ -1,5 +1,6 @@
 import "../styles/Login.css";
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importar useNavigate
 
 function Login() {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -7,11 +8,13 @@ function Login() {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  localStorage.setItem('user', '')
+  const navigate = useNavigate(); // Inicializar useNavigate
+  
+  localStorage.setItem('user', '');
 
   const handleSubmit = async (event) => {
-
     event.preventDefault();
+
     if (isRegistering) {
       // Lógica para el registro
       const response = await fetch('http://localhost:3001/api/register', {
@@ -22,19 +25,18 @@ function Login() {
 
       if (response.ok) {
         alert('Usuario registrado con éxito');
+        setIsRegistering(false); // Cambiar a login después de registrarse
       } else {
         alert('Error al registrar el usuario');
       }
 
+      // Resetear los campos
       setName('');
       setEmail('');
-
       setUsername('');
       setPassword('');
 
-
     } else {
-      
       // Lógica para el inicio de sesión
       const response = await fetch('http://localhost:3001/api/login', {
         method: 'POST',
@@ -45,19 +47,15 @@ function Login() {
       if (response.ok) {
         alert('Inicio de sesión exitoso');
         localStorage.setItem('user', username);
-
+        navigate('/principal'); // Redirige a la página principal
       } else {
         alert('Usuario o contraseña incorrectos');
       }
-      
+
+      // Resetear los campos
       setUsername('');
       setPassword('');
-
     }
-
-    setUsername('');
-    setPassword(''); 
-
   };
 
   return (
@@ -112,13 +110,20 @@ function Login() {
               />
             </li>
           </ul>
-          <button type="submit" className="button_ingresar">{isRegistering ? 'Registrar' : 'Ingresar'}</button>
-          <button type="button" className="button_registrar" onClick={() => setIsRegistering(!isRegistering)}>
+          <button type="submit" className="button_ingresar">
+            {isRegistering ? 'Registrar' : 'Ingresar'}
+          </button>
+          <button
+            type="button"
+            className="button_registrar"
+            onClick={() => setIsRegistering(!isRegistering)}
+          >
             {isRegistering ? 'Iniciar sesión' : 'Registrarse'}
           </button>
         </form>
-        </div>
-        </div>
+      </div>
+    </div>
   );
 }
+
 export default Login;

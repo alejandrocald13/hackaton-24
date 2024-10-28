@@ -14,6 +14,7 @@ function SingleGroup() {
         year: "",
     });
     const [error, setError] = useState("");
+    const [events, setEvents] = useState([]);
 
     const toggleIdVisibility = () => {
         setShowId(!showId);
@@ -28,21 +29,23 @@ function SingleGroup() {
 
     const getEvents = async () => {
         const idGroup = localStorage.getItem('group');
-        let idUser = localStorage.getItem('user');
-
-        idUser = "alejandrocald13";
+        const idUser = localStorage.getItem('user') || "alejandrocald13";
 
         const response = await fetch('http://localhost:3001/api/getEvent', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ idUser, idGroup }),
         });
-    
+
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
+          console.log("SOy los eventos 1 por 1")
+          console.log(data); // Verifica aquí los datos
+          setEvents(data);
+        } else {
+          console.error("Error al obtener los eventos");
         }
-      };
+    };
 
     // Función para obtener a los miembros de un grupo
 
@@ -61,6 +64,7 @@ function SingleGroup() {
     };
 
     useEffect(() => {
+        console.log("Soy la de vententos")
         getEvents();
         getMembers();
         console.log(localStorage.getItem('group'))
@@ -174,9 +178,17 @@ function SingleGroup() {
                     {showId && <li className="id">5454</li>}
                 </ul>
             </div>
-            <div className="eventos">
-                <Tarjeta />
-                <Tarjeta />
+             <div className="eventos">
+                {events.map((event, index) => (
+                    <Tarjeta
+                        key={event.id || index} // Usa `event.id` si está disponible, o `index` temporalmente
+                        title={event.title}
+                        description={event.information}
+                        group={event.group}
+                        date={event.expiredDate}
+                        usuario={event.idUser}
+                    />
+                ))}
             </div>
 
             {/* Modal de Crear Evento */}
