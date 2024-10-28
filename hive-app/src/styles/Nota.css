@@ -1,6 +1,6 @@
 .nota {
     width: 300px;
-    min-height: 249px;
+    min-height: 100px;
     max-height: 250px;
     padding: 20px;
     border: 2px dashed #999999;
@@ -40,7 +40,7 @@
 @media (max-width: 500px) {
     .nota {
         width: 90%;
-        max-height: 250px;
+        min-height: 100px;
         grid-template-columns: 1fr;gap: 10px;
         width: 100%;
         max-width: 300px;

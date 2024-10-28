@@ -8,6 +8,7 @@ function Notas() {
     const [fechaCompleta, setfechaCompleta] = useState('');
     const [notas, setNotas] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
+    const meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
     
     const toggleModal = () => {
         setIsOpen(!isOpen);
@@ -108,7 +109,7 @@ function Notas() {
                             key={index}
                             description={nota.information || "Sin descripción"}
                             dia={nota.confirmatedDate ? nota.confirmatedDate.split(" ")[0] : "Sin día"} 
-                            mesNombre_anio={nota.confirmatedDate ? nota.confirmatedDate.split(" ").slice(1).join(" ") : "Sin mes/año"}
+                            mesNombre_anio={nota.confirmatedDate ? meses[nota.confirmatedDate.split(" ")[1]] + " " + nota.confirmatedDate.split(" ")[2]: "Sin mes/año"}
                             onDelete={() => handleDelete(nota.idNote)} // Pasa la función de eliminación
                         />
                     ))}
