@@ -35,14 +35,14 @@ app.post("/api/login", async (req, res) => {
   try {
 
     const respuesta = await table.validateUser(username, password);
+
     if (!respuesta){
       throw new Error()
     }
 
-    localStorage.setItem('username', username);
-
     res.status(200).send("Usuario encontrado");
   } catch (error) {
+    console.log(error);
     res.status(500).send("El usuario no fue encontrado");
   }
 });
@@ -56,7 +56,7 @@ app.post("/api/fetch-groups", async (req, res) => {
   res.json(result);
     
 });
-
+ // Registrar grupos
 app.post("/api/registerGroup", async (req, res) => {
   const { title, tipo, fechaCreacion, userId } = req.body;
   try {
@@ -68,13 +68,41 @@ app.post("/api/registerGroup", async (req, res) => {
     res.status(500).send("Error al crear un nuevo grupo.");
   }
 });
-
+// Registrar eventos
 app.post("/api/registerEvent", async (req, res) => {
   const { idUser, idGroup, title, description,  createdDate, expiredDate} = req.body;
   try {
 
     await table.createEvent(idUser, idGroup, title, description, createdDate, expiredDate);
     res.status(200).send("Grupo creado exitosamente.");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error al crear un nuevo grupo.");
+  }
+});
+
+// Obtener eventos
+app.post("/api/getEvent", async (req, res) => {
+  const { idUser, idGroup} = req.body;
+  const result = await table.getEvents(idUser, idGroup);
+  res.json(result);
+});
+
+// Obtener miembros del grupo
+app.post("/api/getMembers", async (req, res) => {
+  const {idGroup} = req.body;
+  const result = await table.getMembers(idGroup);
+  res.json(result);
+});
+
+// Unir gente!
+app.post("/api/linkPeople", async (req, res) => {
+  const {idUser, idGroup} = req.body;
+  try {
+    
+    await table.linkPeople(idUser, idGroup);
+    res.status(200).send("Grupo creado exitosamente.");
+
   } catch (error) {
     console.error(error);
     res.status(500).send("Error al crear un nuevo grupo.");

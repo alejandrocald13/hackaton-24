@@ -19,7 +19,6 @@ function Grupos() {
 
   // Función para cargar los grupos desde la base de datos
   const fetchGrupos = async () => {
-    localStorage.setItem('group', "");
     const username = "alejandrocald13";
     const response = await fetch('http://localhost:3001/api/fetch-groups', {
       method: 'POST',
@@ -29,11 +28,32 @@ function Grupos() {
 
     if (response.ok) {
       const data = await response.json();
+      console.log(data);
       const formattedGroups = data.map(grupo => ({
         ...grupo,
         tipo: grupo.type === 0 ? "Personal" : "Académico",
       }));
       setGrupos(formattedGroups);
+    }
+  };
+  // acá la gente se puede unir con su usuario a un código que estará definido por un código único
+  
+  const linkPeople = async () => {
+    let idUser = localStorage.getItem('user');
+    const idGroup = "bqwLC3Y"; // acá va el input del html
+
+    idUser = 'RataG';
+
+    const response = await fetch('http://localhost:3001/api/linkPeople', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idUser, idGroup }),
+    });
+
+    if (response.ok) {
+      alert("Te has unido correctamente al grupo.")
+    } else{
+      alert("Oh, ha pasado algun error al unirte.")
     }
   };
 
@@ -113,8 +133,7 @@ function Grupos() {
   };
 
   const handleNavigate = (id, nombre) => {
-    console.log(nombre)
-    // localStorage.setItem('group', codigo unico del grupo)
+    localStorage.setItem('group', nombre.idGroup)
     navigate(`/grupo`); // Cambia la ruta a la que necesitas redirigir
   };
 

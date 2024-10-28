@@ -10,7 +10,6 @@ function Login() {
   localStorage.setItem('user', '')
 
   const handleSubmit = async (event) => {
-    localStorage.setItem('user', '')
 
     event.preventDefault();
     if (isRegistering) {

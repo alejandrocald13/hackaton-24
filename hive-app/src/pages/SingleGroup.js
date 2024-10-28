@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Tarjeta from "../components/Tarjeta";
 import "../styles/SingleGroup.css";
@@ -24,10 +24,46 @@ function SingleGroup() {
         setFormData({ ...formData, [name]: value });
     };
 
-    // Función para generar un id único
-    const generateId = () => {
-        return Math.floor(Math.random() * 100000); // Genera un número aleatorio de 5 dígitos
+    // Función para obtener todos los eventos del usuario, con user y con grupos
+
+    const getEvents = async () => {
+        const idGroup = localStorage.getItem('group');
+        let idUser = localStorage.getItem('user');
+
+        idUser = "alejandrocald13";
+
+        const response = await fetch('http://localhost:3001/api/getEvent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ idUser, idGroup }),
+        });
+    
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+        }
+      };
+
+    // Función para obtener a los miembros de un grupo
+
+    const getMembers = async () => {
+        const idGroup = localStorage.getItem('group');
+
+        const response = await fetch('http://localhost:3001/api/getMembers', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ idGroup }),
+        });
+    
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+        }
     };
+
+    useEffect(() => {
+        getEvents();
+    }, []);
 
     const validateDate = () => {
         const day = parseInt(formData.day, 10);
@@ -62,8 +98,8 @@ function SingleGroup() {
             const idGroup = localStorage.getItem('group');
 
             const eventData = {
-                idUser: 'alejandrocald13',
-                idGroup: 'bqwLC3Y',
+                idUser: idUser,
+                idGroup: idGroup,
                 title: formData.title,
                 description: formData.description,
                 createdDate: new Date().toISOString(),

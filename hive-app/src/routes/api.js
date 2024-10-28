@@ -1,9 +1,6 @@
 import { open } from "sqlite";
 import sqlite3 from "sqlite3";
 import { encrypt , decrypt } from "./crypt.js";
-import { useEffect } from "react";
-import { isCompositeComponent } from "react-dom/test-utils";
-
 // Hacer clase base de datos
 
 // Función para insertar usuarios en la base de datos
@@ -47,7 +44,7 @@ class Table{
           console.log("Usuario insertado y conexión cerrada.");
     };
 
-    async insertGroups(idUser, idGroup){
+    async linkPeople(idUser, idGroup){
         const db = await open({
             filename: "./hive-db.db",
             driver: sqlite3.Database,
@@ -73,7 +70,6 @@ class Table{
           await stmt.run(idUser, information, confirmatedDate, image);
           await stmt.finalize();
           await db.close();
-          console.log("Usuario insertado y conexión cerrada.");
     };
 
 
@@ -192,7 +188,7 @@ class Table{
         'INSERT INTO Group_ (groupName, createdDate, type, creatorUser, idGroup) VALUES (?, ?, ?, ?, ?)',
       );
       
-      this.insertGroups(creatorUser, uniqueGroupCode);
+      this.linkPeople(creatorUser, uniqueGroupCode);
 
       let boolType = 0;
 
@@ -221,6 +217,57 @@ class Table{
       await db.close();
     }
 
+    async getEvents(idUser, idGroup){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+    
+      const stmt = await db.prepare(
+        'SELECT * FROM Event WHERE Event.idUser = ? AND Event.idGroup = ?');
+
+    const registros = stmt.all(idUser, idGroup);
+    await stmt.finalize();
+
+    let result;
+
+    if (registros) {
+        result = registros
+      }
+      else{
+        result = null;
+      }
+
+      await db.close();
+
+      return result;
+    }
+
+    async getMembers(idGroup){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+    
+      const stmt = await db.prepare(
+        'SELECT idUser as member, Group_.groupName as name FROM Groups JOIN Group_ ON Groups.idGroup = Group_.idGroup WHERE Groups.idGroup = ?');
+
+    const registros = stmt.all(idGroup);
+    await stmt.finalize();
+
+    let result;
+
+    if (registros) {
+        result = registros
+      }
+      else{
+        result = null;
+      }
+
+      await db.close();
+
+      return result;
+    }
 
 };
 
