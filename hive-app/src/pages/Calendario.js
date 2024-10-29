@@ -41,7 +41,9 @@ function Calendario() {
             const personalGroups = data.filter(group => group.type === 0);
 
             // Actualizar los estados
+            // Esto lo mande así porque si no al inicio no tiene grupos
             setGroups([...data])
+            // Grupos separados
             setAcademicGroups(academicGroups);
             setPersonalGroups(personalGroups);
 
