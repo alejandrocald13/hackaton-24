@@ -1,6 +1,7 @@
-import "../styles/Login.css";
-import { useState } from 'react';
+import "../styles/Login.css"
 import { useNavigate } from 'react-router-dom'; // Importar useNavigate
+import { useEffect, useState } from 'react';
+
 
 function Login() {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -62,7 +63,6 @@ function Login() {
     <div className="login">
       <div className="elementos_registro">
         <h1 className="titulo">{isRegistering ? 'Registro' : 'Login'}</h1>
-        
         <form onSubmit={handleSubmit}>
           <ul>
             {isRegistering && (

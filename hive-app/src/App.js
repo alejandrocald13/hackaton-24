@@ -4,6 +4,7 @@ import Grupos from './pages/Grupos';
 import SingleGroup from './pages/SingleGroup';
 import Login from './pages/Login';
 import Calendario from './pages/Calendario';
+import Notas from './pages/Notas';
 
 
 function App() {
@@ -14,7 +15,9 @@ function App() {
       <Route path='/principal' element={<Principal/>}/> 
       <Route path='/grupos-generales' element={<Grupos/>}/> 
       <Route path='/grupo' element={<SingleGroup/>}/>
-      <Route path='/calendario' element={<Calendario/>}/>
+      <Route path='/calendario' element={<Calendario/>}/> 
+      <Route path='/notas' element={<Notas/>}/> 
+
       <Route path="*" element={<Navigate to="/" replace={true} />} exact={true} />
       </Routes>
     </BrowserRouter>

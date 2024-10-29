@@ -188,6 +188,7 @@ function SingleGroup() {
                     {showId && <li className="id">{idName}</li>}
                 </ul>
             </div>
+
              <div className="eventos">
                 {events.map((event, index) => (
                     <Tarjeta
@@ -272,4 +273,5 @@ function SingleGroup() {
     ); 
 }
 
+//<Tarjeta grupoId={grupoId} /> ENTRE LOS ULTIMOS DIV
 export default SingleGroup;
