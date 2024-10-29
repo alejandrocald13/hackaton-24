@@ -17,6 +17,7 @@
     background-color: #EEEEEE;
     padding-bottom: 3rem;
     padding: 0 2rem;
+    padding-bottom: 4rem;
 }
 
 .calendario .titulo {
@@ -46,7 +47,7 @@
     width: 100%;
     max-width: 1200px;
     justify-content: space-between; /* Cambiado para espacio entre elementos */
-    gap: 20px; /* Espacio entre contenedores */
+    gap: 90px; /* Espacio entre contenedores */
 }
 
 .calendario .calendar-container {
@@ -66,28 +67,59 @@
 
 .calendario .calendar-navigation button {
     margin: 0 20px;
+    background-color: #222831; /* Color de fondo */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Esquinas redondeadas */
+    padding: 10px 15px; /* Espaciado interno */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    transition: background-color 0.3s; /* Transición suave para el color de fondo */
 }
 
+.calendario .calendar-navigation button:hover {
+    background-color: #222831; /* Color de fondo al pasar el mouse */
+}
+
+/* Nuevo contenedor elevado para el calendario */
+.calendario .calendar-frame {
+    padding: 20px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra alrededor del cuadro */
+    border-radius: 10px;
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s;
+}
+
+/* Sombra adicional al pasar el mouse por el cuadro */
+.calendario .calendar-frame:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Encabezado de días de la semana */
 .calendario .weekdays {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     margin-bottom: 10px;
+    background-color: transparent;
 }
 
 .calendario .weekday {
+    background-color: #FFFFFF;
     text-align: center;
     font-weight: bold;
 }
 
+/* Contenedor de los días del calendario */
 .calendario .calendar {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 5px;
+    background-color: transparent;
 }
 
 .calendario .calendar-day {
     padding: 10px;
-    background-color: #f0f0f0;
+    background-color: #FFFFFF;
     text-align: center;
     cursor: pointer;
     border-radius: 30px;
@@ -95,14 +127,26 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.calendario .calendar-day span {
+    background-color: #ffffff;
+}
+
 .calendario .calendar-day:hover {
     background-color: #dcdcdc;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+.calendario .calendar-day:hover span{
+    background-color: #dcdcdc;
+}
+
 .calendario .event-day {
     background-color: #ffdddd;
     border: 2px solid #ff8888;
+}
+
+.calendario .event-day span{
+    background-color: #ffdddd;
 }
 
 .calendario .event-details {
@@ -121,31 +165,31 @@
 
 /* Para pantallas de 0 a 500 px */
 @media (max-width: 500px) {
-    .calendario .main-container {
+    .main-container {
         flex-direction: column;
         align-items: center;
     }
 
-    .calendario .calendar {
+    .calendar {
         grid-template-columns: repeat(7, 1fr);
     }
 
-    .calendario .calendar-day {
+    .calendar-day {
         padding: 6px;
         font-size: 14px;
     }
 
-    .calendario .filters {
+    .filters {
         flex-direction: column;
         align-items: flex-start;
     }
 
-    .calendario .filters label,
+    .filters label,
     .filters select {
         font-size: 14px;
     }
 
-    .calendario .event-details {
+    event-details {
         max-height: 300px;
     }
 }
@@ -155,13 +199,13 @@
     .calendario {
         display: none;
     }
-    .calendario .no-format-message {
+    .no-format-message {
         display: block;
     }
 }
 
 /* En Calendario.css */
-.calendario .no-format-message {
+.no-format-message {
     background-color: #ffdddd; /* Fondo rojo claro */
     color: #d9534f; /* Color de texto rojo oscuro */
     padding: 15px;
@@ -177,16 +221,16 @@
 
 /* Para pantallas de 900px en adelante */
 @media (min-width: 900px) {
-    .calendario .main-container {
+    .main-container {
         flex-direction: row;
         justify-content: space-around;
     }
 
-    .calendario .calendar {
+    .calendar {
         grid-template-columns: repeat(7, 1fr);
     }
 
-    .calendario .calendar-day {
+    .calendar-day {
         padding: 10px;
         font-size: 16px;
     }
