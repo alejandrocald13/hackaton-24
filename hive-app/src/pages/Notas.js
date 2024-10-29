@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Notas.css";
 import Nota from "../components/Nota";
+import Header from "../components/Header";
 
 function Notas() {
 
@@ -62,7 +63,7 @@ function Notas() {
         const fechaActual = new Date();
         const dia = fechaActual.getDate();
         const anio = fechaActual.getFullYear();
-        const confirmatedDate = `${dia} ${fechaActual.getMonth()} ${anio}`;
+        const confirmatedDate = `${dia}/${fechaActual.getMonth() + 1}/${anio}`;
         setfechaCompleta(confirmatedDate);
 
         const idUser =  localStorage.getItem("user");
@@ -86,6 +87,7 @@ function Notas() {
 
     return (
         <div className="notas-container">
+             <Header />
             <div className="button-container">
                 <button className="open-modal-btn" onClick={toggleModal}>Agregar nota</button>
             </div>
@@ -111,8 +113,7 @@ function Notas() {
                         <Nota
                             key={index}
                             description={nota.information || "Sin descripción"}
-                            dia={nota.confirmatedDate ? nota.confirmatedDate.split(" ")[0] : "Sin día"} 
-                            mesNombre_anio={nota.confirmatedDate ? meses[nota.confirmatedDate.split(" ")[1]] + " " + nota.confirmatedDate.split(" ")[2]: "Sin mes/año"}
+                            fecha={nota.confirmatedDate} 
                             onDelete={() => handleDelete(nota.idNote)} // Pasa la función de eliminación
                         />
                     ))}

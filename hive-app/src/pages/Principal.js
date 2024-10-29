@@ -1,11 +1,13 @@
 import "../styles/Principal.css";
 import Tarjeta from "../components/Tarjeta";
 import Header from "../components/Header";
+import Nota from "../components/Nota";
 import { useEffect, useState } from "react";
 
 function Principal() {
   const [username, setUsername] = useState('');
   const [eventsFeed, setEventsFeed] = useState([]); // Nuevo state para los eventos
+  const [notasFeed, setNotasFeed] = useState([]); // Notas
 
   const getEventsFeed = async () => {
     const username = localStorage.getItem('user');
@@ -25,16 +27,18 @@ function Principal() {
     }
   };
 
+  // obtener notas
   const getNotasFeed = async () => {
     const username = localStorage.getItem('user');
     const response = await fetch('http://localhost:3001/api/getNotesFeed', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username  })
+        body: JSON.stringify({ username })
     });
     if (response.ok) {
         const data = await response.json();
-        console.log('notas', data); // data es un json, trabajar con el
+        console.log(data)
+        setNotasFeed(data); // Actualiza el estado de notas con los datos recibidos
     }
   };
 
@@ -65,6 +69,16 @@ function Principal() {
        />
         ))}
       </div>
+      <div className="display_notas">
+                {notasFeed.map((nota, index) => (
+                    <Nota
+                        key={nota.id || index}
+                        description={nota.information}
+                        fecha={nota.confirmatedDate}
+                        onDelete={() => console.log("Eliminar nota con ID:", nota.id)}
+                    />
+                ))}
+            </div>
     </div>
   );
 }
