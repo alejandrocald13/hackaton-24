@@ -48,6 +48,22 @@
   background-color: #1d1d1b;
 }
 
+/* Botón para ingresar a un grupo */
+.grupos .crear-grupo-ingresar {
+  background-color: #222831;
+  color: #EEEEEE;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 10px 0 27px 0;
+  cursor: pointer;
+  display: block;
+}
+
+.crear-grupo-ingresar:hover {
+  background-color: #1d1d1b;
+}
+
 /* Modal (fondo y contenido) */
 .modal-overlay {
   position: fixed;
@@ -154,6 +170,14 @@
   }
 
   .grupos .crear-grupo-btn {
+    min-width: 15rem;
+    max-width: 5rem;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 10px 0 27px 0;
+  }
+
+  .grupos .crear-grupo-ingresar {
     min-width: 15rem;
     max-width: 5rem;
     padding: 10px 20px;

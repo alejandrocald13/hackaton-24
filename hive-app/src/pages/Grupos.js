@@ -14,15 +14,14 @@ function Grupos() {
     tipo: "Personal",
   });
   const [integranteInput, setIntegranteInput] = useState(""); 
+  const [codigoGrupo, setCodigoGrupo] = useState(""); // Nuevo estado para el código del grupo
+  const [isJoinModalOpen, setIsJoinModalOpen] = useState(false); // Modal para unirse a grupo
 
   localStorage.setItem('group', "");
 
-  // Función para cargar los grupos desde la base de datos
   const fetchGrupos = async () => {
-
     let username = localStorage.getItem('user');
-    
-    username = "alejandrocald13"
+    username = "alejandrocald13";
 
     const response = await fetch('http://localhost:3001/api/fetch-groups', {
       method: 'POST',
@@ -40,12 +39,10 @@ function Grupos() {
       setGrupos(formattedGroups);
     }
   };
-  // acá la gente se puede unir con su usuario a un código que estará definido por un código único
-  
+
   const linkPeople = async () => {
     let idUser = localStorage.getItem('user');
-    const idGroup = "bqwLC3Y"; // acá va el input del html
-
+    const idGroup = codigoGrupo; // Tomar el código ingresado en el modal
     idUser = 'RataG';
 
     const response = await fetch('http://localhost:3001/api/linkPeople', {
@@ -55,10 +52,11 @@ function Grupos() {
     });
 
     if (response.ok) {
-      alert("Te has unido correctamente al grupo.")
-    } else{
-      alert("Oh, ha pasado algun error al unirte.")
+      alert("Te has unido correctamente al grupo.");
+    } else {
+      alert("Oh, ha pasado algún error al unirte.");
     }
+    setIsJoinModalOpen(false); // Cerrar modal al unirse
   };
 
   useEffect(() => {
@@ -74,6 +72,14 @@ function Grupos() {
 
   const cerrarModal = () => {
     setIsModalOpen(false);
+  };
+
+  const abrirJoinModal = () => {
+    setIsJoinModalOpen(true); 
+  };
+
+  const cerrarJoinModal = () => {
+    setIsJoinModalOpen(false); 
   };
 
   const handleInputChange = (e) => {
@@ -100,12 +106,9 @@ function Grupos() {
     });
   };
 
-  // Mandar la info del nuevo grupo creado a la base de datos 
   const agregarGrupo = async () => {
-    
     let userId = localStorage.getItem("userId");
     const fechaCreacion = new Date().toISOString(); 
-    
     userId = "alejandrocald13";
 
     const nuevoGrupoObj = {
@@ -130,15 +133,14 @@ function Grupos() {
 
       cerrarModal(); 
       fetchGrupos();
-
     } catch (error) {
       console.error("Error al agregar el grupo:", error);
     }
   };
 
   const handleNavigate = (id, nombre) => {
-    localStorage.setItem('group', nombre.idGroup)
-    navigate(`/grupo`); // Cambia la ruta a la que necesitas redirigir
+    localStorage.setItem('group', nombre.idGroup);
+    navigate(`/grupo`);
   };
 
   const toggleSection = (index) => {
@@ -152,6 +154,10 @@ function Grupos() {
 
       <button onClick={abrirModal} className="crear-grupo-btn">
         Crear Nuevo Grupo
+      </button>
+
+      <button onClick={abrirJoinModal} className="crear-grupo-ingresar">
+        Ingresar a un Grupo
       </button>
 
       {isModalOpen && (
@@ -190,6 +196,22 @@ function Grupos() {
         </div>
       )}
 
+      {isJoinModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>Unirse a un Grupo</h2>
+            <input
+              type="text"
+              placeholder="Código del grupo"
+              value={codigoGrupo}
+              onChange={(e) => setCodigoGrupo(e.target.value)}
+            />
+            <button onClick={linkPeople}>Unirse</button>
+            <button onClick={cerrarJoinModal}>Cancelar</button>
+          </div>
+        </div>
+      )}
+
       <div className="grupo-categorias">
         <h2 className="h2_personales" onClick={() => toggleSection(0)}>
           Grupos Personales
@@ -199,15 +221,13 @@ function Grupos() {
         </h2>
         {activeSection === 0 && (
           <div className="grupo-list">
-            {grupos
-              .filter(grupo => grupo.tipo === "Personal")
-              .map((grupo, index) => (
-                <div key={index} className="grupo-item">
-                  <div className="grupo-title" onClick={() => handleNavigate(grupo.id, grupo)}>
-                    {grupo.groupName}
-                  </div>
+            {grupos.filter(grupo => grupo.tipo === "Personal").map((grupo, index) => (
+              <div key={index} className="grupo-item">
+                <div className="grupo-title" onClick={() => handleNavigate(grupo.id, grupo)}>
+                  {grupo.groupName}
                 </div>
-              ))}
+              </div>
+            ))}
           </div>
         )}
 
@@ -219,15 +239,13 @@ function Grupos() {
         </h2>
         {activeSection === 1 && (
           <div className="grupo-list">
-            {grupos
-              .filter(grupo => grupo.tipo === "Académico")
-              .map((grupo, index) => (
-                <div key={index} className="grupo-item">
-                  <div className="grupo-title" onClick={() => handleNavigate(grupo.id, grupo)}>
-                    {grupo.groupName}
-                  </div>
+            {grupos.filter(grupo => grupo.tipo === "Académico").map((grupo, index) => (
+              <div key={index} className="grupo-item">
+                <div className="grupo-title" onClick={() => handleNavigate(grupo.id, grupo)}>
+                  {grupo.groupName}
                 </div>
-              ))}
+              </div>
+            ))}
           </div>
         )}
       </div>
