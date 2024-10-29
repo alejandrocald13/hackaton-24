@@ -107,7 +107,7 @@ function Grupos() {
   };
 
   const agregarGrupo = async () => {
-    let userId = localStorage.getItem("userId");
+    let userId = localStorage.getItem('user');
     const fechaCreacion = new Date().toISOString(); 
     userId = "alejandrocald13";
 

@@ -217,16 +217,16 @@ class Table{
       await db.close();
     }
 
-    async getEvents(idUser, idGroup){
+    async getEvents(idGroup){
       const db = await open({
         filename: "./hive-db.db",
         driver: sqlite3.Database,
       });
     
       const stmt = await db.prepare(
-        'SELECT * FROM Event WHERE Event.idUser = ? AND Event.idGroup = ?');
+        'SELECT Event.idEvent, Event.idGroup, Event.idUser, Event.title, Event.information, Event.expiredDate, Group_.groupName FROM Event JOIN Group_ ON Event.idGroup = Group_.idGroup WHERE Event.idGroup = ?');
 
-    const registros = stmt.all(idUser, idGroup);
+    const registros = stmt.all(idGroup);
     await stmt.finalize();
 
     let result;
@@ -250,7 +250,7 @@ class Table{
       });
     
       const stmt = await db.prepare(
-        'SELECT idUser as member, Group_.groupName as name FROM Groups JOIN Group_ ON Groups.idGroup = Group_.idGroup WHERE Groups.idGroup = ?');
+        'SELECT idUser as member, Group_.groupName as name, Group_.idGroup as idGroup FROM Groups JOIN Group_ ON Groups.idGroup = Group_.idGroup WHERE Groups.idGroup = ?');
 
     const registros = stmt.all(idGroup);
     await stmt.finalize();
@@ -278,7 +278,7 @@ class Table{
       });
     
       const stmt = await db.prepare(
-        'SELECT Event.title, Event.information, Event.expiredDate, Group_.groupName FROM Event JOIN Group_ ON Event.idGroup = Group_.idGroup WHERE Event.idUser = ?');
+        'SELECT Event.title, Event.information, Event.expiredDate, Event.idUser, Group_.groupName FROM Event JOIN Groups ON Groups.idGroup = Event.idGroup JOIN Group_ ON Event.idGroup = Group_.idGroup WHERE Groups.idUser = ?');
 
     const registros = stmt.all(idUser);
     await stmt.finalize();

@@ -83,8 +83,8 @@ app.post("/api/registerEvent", async (req, res) => {
 
 // Obtener eventos para un grupo en específico
 app.post("/api/getEvent", async (req, res) => {
-  const { idUser, idGroup} = req.body;
-  const result = await table.getEvents(idUser, idGroup);
+  const { idGroup } = req.body;
+  const result = await table.getEvents(idGroup);
   res.json(result);
 });
 

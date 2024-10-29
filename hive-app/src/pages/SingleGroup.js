@@ -29,12 +29,11 @@ function SingleGroup() {
 
     const getEvents = async () => {
         const idGroup = localStorage.getItem('group');
-        const idUser = localStorage.getItem('user') || "alejandrocald13";
 
         const response = await fetch('http://localhost:3001/api/getEvent', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ idUser, idGroup }),
+          body: JSON.stringify({ idGroup }),
         });
 
         if (response.ok) {
