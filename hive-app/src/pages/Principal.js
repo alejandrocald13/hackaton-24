@@ -12,7 +12,7 @@ function Principal() {
   const getEventsFeed = async () => {
     const username = localStorage.getItem('user');
 
-    const response = await fetch('http://localhost:3001/api/getEventsFeed', {
+    const response = await fetch('https://hackaton-24-zeta.vercel.app/api/getEventsFeed', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username }),
@@ -30,7 +30,7 @@ function Principal() {
   // obtener notas
   const getNotasFeed = async () => {
     const username = localStorage.getItem('user');
-    const response = await fetch('http://localhost:3001/api/getNotesFeed', {
+    const response = await fetch('https://hackaton-24-zeta.vercel.app/api/getNotesFeed', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username })

@@ -34,7 +34,7 @@ function SingleGroup() {
     const getEvents = async () => {
         const idGroup = localStorage.getItem('group');
 
-        const response = await fetch('http://localhost:3001/api/getEvent', {
+        const response = await fetch('https://hackaton-24-zeta.vercel.app/api/getEvent', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ idGroup }),
@@ -55,7 +55,7 @@ function SingleGroup() {
 
     const getMembers = async () => {
         const idGroup = localStorage.getItem('group');
-        const response = await fetch('http://localhost:3001/api/getMembers', {
+        const response = await fetch('https://hackaton-24-zeta.vercel.app/api/getMembers', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ idGroup }),
@@ -126,7 +126,7 @@ function SingleGroup() {
 
     
             // Aquí puedes realizar una solicitud al backend
-            fetch('http://localhost:3001/api/registerEvent', {
+            fetch('https://hackaton-24-zeta.vercel.app/api/registerEvent', {
                 method: 'POST', // Método de la solicitud
                 headers: {
                     'Content-Type': 'application/json', // Tipo de contenido

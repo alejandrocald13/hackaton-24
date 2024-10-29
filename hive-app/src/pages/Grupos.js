@@ -22,7 +22,7 @@ function Grupos() {
   const fetchGrupos = async () => {
     let username = localStorage.getItem('user');
 
-    const response = await fetch('http://localhost:3001/api/fetch-groups', {
+    const response = await fetch('https://hackaton-24-zeta.vercel.app/api/fetch-groups', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username }),
@@ -43,7 +43,7 @@ function Grupos() {
     let idUser = localStorage.getItem('user');
     const idGroup = codigoGrupo; // Tomar el código ingresado en el modal
 
-    const response = await fetch('http://localhost:3001/api/linkPeople', {
+    const response = await fetch('https://hackaton-24-zeta.vercel.app/api/linkPeople', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ idUser, idGroup }),
@@ -117,7 +117,7 @@ function Grupos() {
     };
     
     try {
-      const response = await fetch("http://localhost:3001/api/registerGroup", {
+      const response = await fetch("https://hackaton-24-zeta.vercel.app/api/registerGroup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(nuevoGrupoObj),

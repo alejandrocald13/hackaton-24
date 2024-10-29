@@ -15,7 +15,7 @@ function Calendario() {
 
     const fetchEvents = async () => {
         try {
-            const response = await fetch("http://localhost:3001/api/fetchEvents", {
+            const response = await fetch("https://hackaton-24-zeta.vercel.app/api/fetchEvents", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ idUser }),
@@ -36,7 +36,7 @@ function Calendario() {
 
     const fetchGroups = async () => {
         try {
-            const response = await fetch("http://localhost:3001/api/fetchGroupsCalendar", {
+            const response = await fetch("https://hackaton-24-zeta.vercel.app/api/fetchGroupsCalendar", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ idUser }),
