@@ -116,6 +116,18 @@ app.post("/api/getEventsFeed", async (req, res) => {
   res.json(result);
 });
 
+// Ruta para obtener data
+app.post("/api/getNotesFeed", async (req, res) => {
+  const { username } = req.body;
+  try {
+    const result = await table.getNotesFeed(username);
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("No se pudieron obtener las notas");
+  }
+});
+
 // Iniciar el servidor
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);

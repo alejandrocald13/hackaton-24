@@ -49,6 +49,8 @@ function SingleGroup() {
         }
     };
 
+
+
     // Función para obtener a los miembros de un grupo
 
     const getMembers = async () => {

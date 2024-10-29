@@ -25,6 +25,19 @@ function Principal() {
     }
   };
 
+  const getNotasFeed = async () => {
+    const username = localStorage.getItem('user');
+    const response = await fetch('http://localhost:3001/api/getNotesFeed', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username  })
+    });
+    if (response.ok) {
+        const data = await response.json();
+        console.log('notas', data); // data es un json, trabajar con el
+    }
+  };
+
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
@@ -33,6 +46,7 @@ function Principal() {
     }
 
     getEventsFeed();
+    getNotasFeed();
   }, []);
 
   return (

@@ -297,6 +297,20 @@ class Table{
       return result;
     }
 
+    async getNotesFeed(username){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+    
+      const data = await db.all(
+        'SELECT * FROM Note WHERE Note.idUser = ?',
+        [username]
+ 
+    );
+      return data
+    }
+
 };
 
 
