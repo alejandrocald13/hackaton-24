@@ -21,7 +21,6 @@ function Grupos() {
 
   const fetchGrupos = async () => {
     let username = localStorage.getItem('user');
-    username = "alejandrocald13";
 
     const response = await fetch('http://localhost:3001/api/fetch-groups', {
       method: 'POST',
@@ -43,7 +42,6 @@ function Grupos() {
   const linkPeople = async () => {
     let idUser = localStorage.getItem('user');
     const idGroup = codigoGrupo; // Tomar el código ingresado en el modal
-    idUser = 'RataG';
 
     const response = await fetch('http://localhost:3001/api/linkPeople', {
       method: 'POST',
@@ -109,7 +107,7 @@ function Grupos() {
   const agregarGrupo = async () => {
     let userId = localStorage.getItem('user');
     const fechaCreacion = new Date().toISOString(); 
-    userId = "alejandrocald13";
+    userId = localStorage.getItem('user');
 
     const nuevoGrupoObj = {
       title: nuevoGrupo.title,

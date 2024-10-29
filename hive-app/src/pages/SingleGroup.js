@@ -111,9 +111,10 @@ function SingleGroup() {
             const idGroup = localStorage.getItem('group');
 
             console.log(idUser, idGroup);
+            
 
             const eventData = {
-                idUser: "alejandrocald13",
+                idUser: idUser,
                 idGroup: idGroup,
                 title: formData.title,
                 description: formData.description,

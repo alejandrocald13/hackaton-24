@@ -139,7 +139,8 @@ class Table{
       });
         
       const stmt = await db.all(
-        'SELECT Event.title, Event.information, Event.expiredDate, Group_.type, Group_.groupName, Group_.idGroup FROM Event JOIN Groups ON Groups.idGroup = Event.idGroup JOIN Group_ ON Event.idGroup = Group_.idGroup WHERE Groups.idUser = "alejandrocald13"'
+        'SELECT Event.title, Event.information, Event.expiredDate, Group_.type, Group_.groupName, Group_.idGroup FROM Event JOIN Groups ON Groups.idGroup = Event.idGroup JOIN Group_ ON Event.idGroup = Group_.idGroup WHERE Groups.idUser = ?',
+        [idUser]
     );
 
     let result;
@@ -162,7 +163,8 @@ class Table{
       });
         
       const stmt = await db.all(
-        'SELECT Groups.idGroup, Group_.groupName FROM Groups JOIN Group_ ON Group_.idGroup = Groups.idGroup WHERE Groups.idUser = "alejandrocald13"'
+        'SELECT Groups.idGroup, Group_.groupName FROM Groups JOIN Group_ ON Group_.idGroup = Groups.idGroup WHERE Groups.idUser = ?',
+        [idUser]
     );
 
     let result;
@@ -343,7 +345,7 @@ class Table{
       }
 
       await db.close();
-
+      
       return result;
     }
 

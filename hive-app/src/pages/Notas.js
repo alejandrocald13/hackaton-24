@@ -18,7 +18,8 @@ function Notas() {
 
     // mostrar notas
     const fetchNotas = async () => {
-        const idUser = "DANI";
+        const idUser = localStorage.getItem("user");
+
         const response = await fetch('http://localhost:3001/api/getNotes', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -64,7 +65,7 @@ function Notas() {
         const confirmatedDate = `${dia} ${fechaActual.getMonth()} ${anio}`;
         setfechaCompleta(confirmatedDate);
 
-        const idUser = "DANI";
+        const idUser =  localStorage.getItem("user");
         const nuevaNota = { idUser, information, confirmatedDate };
 
         const response = await fetch('http://localhost:3001/api/insertNote', {

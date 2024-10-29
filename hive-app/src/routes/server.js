@@ -137,13 +137,6 @@ app.post("/api/linkPeople", async (req, res) => {
   }
 });
 
-// Obtener eventos para el mural
-app.post("/api/getEventsFeed", async (req, res) => {
-  const { username } = req.body;
-  const result = await table.getEventsFeed(username);
-  res.json(result);
-});
-
 // Ruta Obtener notas
 app.post("/api/getNotes", async (req, res) => {
   const { idUser } = req.body;
@@ -164,6 +157,20 @@ app.post("/api/getEventsFeed", async (req, res) => {
   const { username } = req.body;
   const result = await table.getEventsFeed(username);
   res.json(result);
+  console.log("FEED")
+  console.log(result)
+});
+
+// Ruta para obtener data
+app.post("/api/getNotesFeed", async (req, res) => {
+  const { username } = req.body;
+  try {
+    const result = await table.getNotesFeed(username);
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("No se pudieron obtener las notas");
+  }
 });
 
 // Ruta para insertar notas
