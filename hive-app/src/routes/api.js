@@ -269,6 +269,34 @@ class Table{
       return result;
     }
 
+
+    async getEventsFeed(idUser){
+
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+    
+      const stmt = await db.prepare(
+        'SELECT Event.title, Event.information, Event.expiredDate, Group_.groupName FROM Event JOIN Group_ ON Event.idGroup = Group_.idGroup WHERE Event.idUser = ?');
+
+    const registros = stmt.all(idUser);
+    await stmt.finalize();
+
+    let result;
+
+    if (registros) {
+        result = registros
+      }
+      else{
+        result = null;
+      }
+
+      await db.close();
+
+      return result;
+    }
+
 };
 
 

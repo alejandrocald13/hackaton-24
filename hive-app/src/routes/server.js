@@ -81,7 +81,7 @@ app.post("/api/registerEvent", async (req, res) => {
   }
 });
 
-// Obtener eventos
+// Obtener eventos para un grupo en específico
 app.post("/api/getEvent", async (req, res) => {
   const { idUser, idGroup} = req.body;
   const result = await table.getEvents(idUser, idGroup);
@@ -107,6 +107,13 @@ app.post("/api/linkPeople", async (req, res) => {
     console.error(error);
     res.status(500).send("Error al crear un nuevo grupo.");
   }
+});
+
+// Obtener eventos para el mural
+app.post("/api/getEventsFeed", async (req, res) => {
+  const { username } = req.body;
+  const result = await table.getEventsFeed(username);
+  res.json(result);
 });
 
 // Iniciar el servidor

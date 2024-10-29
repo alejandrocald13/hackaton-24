@@ -7,9 +7,11 @@ function Principal() {
   const [username, setUsername] = useState('');
 
   
-/* const getEvents = async () => {
-        const username = "alejandrocald13";
-        const response = await fetch('http://localhost:3001/api/fetch-groups', {
+  const getEventsFeed = async () => {
+        
+        const username = localStorage.getItem('user');
+
+        const response = await fetch('http://localhost:3001/api/getEventsFeed', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username }),
@@ -18,13 +20,13 @@ function Principal() {
         if (response.ok) {
           const data = await response.json();
           console.log(data);
-          const formattedGroups = data.map(grupo => ({
+          /* const formattedGroups = data.map(grupo => ({
             ...grupo,
             tipo: grupo.type === 0 ? "Personal" : "Académico",
-          }));
-          setGrupos(formattedGroups);
+          }));*/
+          // setGrupos(formattedGroups);
         }
-    };*/
+    };
 
       // const getNotes // mayda xd
 
@@ -32,8 +34,12 @@ function Principal() {
     // Obtener el username de localStorage al cargar la página principal
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
+      console.log(storedUser);
       setUsername(storedUser);
     }
+
+    getEventsFeed();
+
   }, []);
 
   return (
