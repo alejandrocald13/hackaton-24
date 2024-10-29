@@ -5,33 +5,27 @@ import { useEffect, useState } from "react";
 
 function Principal() {
   const [username, setUsername] = useState('');
+  const [eventsFeed, setEventsFeed] = useState([]); // Nuevo state para los eventos
 
-  
   const getEventsFeed = async () => {
-        
-        const username = localStorage.getItem('user');
+    const username = localStorage.getItem('user');
 
-        const response = await fetch('http://localhost:3001/api/getEventsFeed', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username }),
-        });
-    
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-          /* const formattedGroups = data.map(grupo => ({
-            ...grupo,
-            tipo: grupo.type === 0 ? "Personal" : "Académico",
-          }));*/
-          // setGrupos(formattedGroups);
-        }
-    };
+    const response = await fetch('http://localhost:3001/api/getEventsFeed', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username }),
+    });
 
-      // const getNotes // mayda xd
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data); // Verifica en consola que data contiene los eventos correctamente
+      setEventsFeed(data); // Guarda los eventos en el state
+    } else {
+      console.error("Error al obtener los eventos del feed");
+    }
+  };
 
   useEffect(() => {
-    // Obtener el username de localStorage al cargar la página principal
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       console.log(storedUser);
@@ -39,16 +33,23 @@ function Principal() {
     }
 
     getEventsFeed();
-
   }, []);
 
   return (
     <div className="principal">
-      <Header/>
+      <Header />
       <h2>Bienvenido, {username}</h2>
       <div className="display_tarjetas">
-        <Tarjeta />
-        <Tarjeta />
+        {eventsFeed.map((event, index) => (
+           <Tarjeta
+           key={event.id || index} // Usa `event.id` si está disponible, o `index` temporalmente
+           title={event.title}
+           description={event.information}
+           group={event.groupName}
+           date={event.expiredDate}
+           usuario={event.idUser}
+       />
+        ))}
       </div>
     </div>
   );
