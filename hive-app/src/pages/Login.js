@@ -68,7 +68,7 @@ function Login() {
             {isRegistering && (
               <>
                 <li>
-                  <label htmlFor="nombre">Nombre:</label>
+                  <label htmlFor="nombre">Nombre: </label>
                   <input
                     type="text"
                     id="nombre"
