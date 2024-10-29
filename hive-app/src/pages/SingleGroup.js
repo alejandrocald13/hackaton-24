@@ -15,6 +15,9 @@ function SingleGroup() {
     });
     const [error, setError] = useState("");
     const [events, setEvents] = useState([]);
+    const [groupName, setGroupName] = useState('');
+    const [idName, setGroupId] = useState('');
+    const [members, setMembers] = useState([]);  
 
     const toggleIdVisibility = () => {
         setShowId(!showId);
@@ -38,8 +41,8 @@ function SingleGroup() {
 
         if (response.ok) {
           const data = await response.json();
-          console.log("SOy los eventos 1 por 1")
           console.log(data); // Verifica aquí los datos
+          console.log("pussy")
           setEvents(data);
         } else {
           console.error("Error al obtener los eventos");
@@ -55,16 +58,21 @@ function SingleGroup() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ idGroup }),
         });
-    
+
         if (response.ok) {
             const data = await response.json();
+            
             console.log(data);
+            setGroupName(data[0].name);
+            setGroupId(data[0].idGroup)
+            const memberNames = data.map(memberObj => memberObj.member);
+            setMembers(memberNames);
         }
     };
 
     useEffect(() => {
-        console.log("Soy la de vententos")
         getEvents();
+        console.log("Soy los members")
         getMembers();
         console.log(localStorage.getItem('group'))
     }, []);
@@ -96,7 +104,6 @@ function SingleGroup() {
 
     // Funcion para mandar los datos a la base de datos
     const handleCreateEvent = () => {
-        // Verifica si la fecha es válida
         if (validateDate()) {
             const idUser = localStorage.getItem('user');
             const idGroup = localStorage.getItem('group');
@@ -121,31 +128,31 @@ function SingleGroup() {
                 headers: {
                     'Content-Type': 'application/json', // Tipo de contenido
                 },
-                body: JSON.stringify(eventData), // Convierte el objeto en JSON
+                body: JSON.stringify(eventData), 
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Error en la creación del evento'); // Manejo de errores
+                    throw new Error('Error en la creación del evento');
                 }
             })
             .then(data => {
                 alert('Evento creado exitosamente:')
-                setShowModal(false); // Cierra el modal
+                setShowModal(false); 
             })
             .catch(error => {
-                console.error('Hubo un problema con la solicitud:', error); // Manejo de errores
+                console.error('Hubo un problema con la solicitud:', error); 
             });
         } else {
-            console.log("La fecha no es válida."); // Mensaje si la fecha no es válida
+            console.log("La fecha no es válida.");
         }
     };
-    
+
 
     return (
         <div className="sigle_group">
             <Header />
             <div className="info_grupo">
-                <h1 className="titulo">Página por Grupo</h1>
+                <h1 className="titulo">{groupName}</h1>
                 <ul className="info">
                     <li>
                         <button className="id_grupo" onClick={toggleIdVisibility}>
@@ -174,16 +181,16 @@ function SingleGroup() {
                             </svg>
                         </button>
                     </li>
-                    {showId && <li className="id">5454</li>}
+                    {showId && <li className="id">{idName}</li>}
                 </ul>
             </div>
              <div className="eventos">
                 {events.map((event, index) => (
                     <Tarjeta
-                        key={event.id || index} // Usa `event.id` si está disponible, o `index` temporalmente
+                        key={event.id || index}
                         title={event.title}
                         description={event.information}
-                        group={event.group}
+                        group={event.groupName}
                         date={event.expiredDate}
                         usuario={event.idUser}
                     />
