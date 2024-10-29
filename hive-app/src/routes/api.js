@@ -129,6 +129,54 @@ class Table{
 
     }
 
+
+    async fetchEvent(idUser){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+        
+      const stmt = await db.all(
+        'SELECT Event.title, Event.information, Event.expiredDate, Group_.type, Group_.groupName, Group_.idGroup FROM Event JOIN Groups ON Groups.idGroup = Event.idGroup JOIN Group_ ON Event.idGroup = Group_.idGroup WHERE Groups.idUser = "alejandrocald13"'
+    );
+
+    let result;
+
+    if (stmt) {
+        result = stmt
+      }
+      else{
+        result = null;
+      }
+
+      await db.close();
+      return result;
+    }
+
+    async fetchGroupCalendar(idUser){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+        
+      const stmt = await db.all(
+        'SELECT Groups.idGroup, Group_.groupName FROM Groups JOIN Group_ ON Group_.idGroup = Groups.idGroup WHERE Groups.idUser = "alejandrocald13"'
+    );
+
+    let result;
+
+    if (stmt) {
+        result = stmt
+      }
+      else{
+        result = null;
+      }
+
+      await db.close();
+      console.log("resultado")
+      console.log(result)
+      return result;
+    }
     // ROBERTO CALDERON
 
     async fetchGroups(idUser){

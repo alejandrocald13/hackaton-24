@@ -47,6 +47,34 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
+app.post("/api/fetchEvents", async (req, res) => {
+  const { idUser } = req.body;
+  try {
+    const result = await table.fetchEvent(idUser);
+    res.json(result);
+    console.log("Eventos Calendario")
+    console.log(result)
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("No se pudieron obtener las notas");
+  }
+});
+
+// Ruta para obtener grupos en calendario
+app.post("/api/fetchGroupsCalendar", async (req, res) => {
+  const { idUser } = req.body;
+  try {
+    console.log(idUser)
+    const result = await table.fetchGroupCalendar(idUser);
+    console.log("Grupos Calendario")
+    console.log(result)
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("No se pudieron obtener las notas");
+  }
+});
+
 // ROBERTO CALDERON
 // Ruta para sacar los grupos 
 app.post("/api/fetch-groups", async (req, res) => {

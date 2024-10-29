@@ -6,12 +6,50 @@ function Calendario() {
     const [events, setEvents] = useState([]);
     const [filters, setFilters] = useState({ type: "all", group: "all" });
 
-    // Obtener eventos de la base de datos
-    // useEffect(() => {
-    //     axios.get("/api/events") // Cambia esta URL a tu endpoint real
-    //         .then(response => setEvents(response.data))
-    //         .catch(error => console.error("Error fetching events:", error));
-    // }, []);
+    const idUser =  localStorage.getItem('user');
+    // Cuando ya jale se integra lo siguiente: 
+    const fetchEvents = async (event) => {
+        const response = await fetch('http://localhost:3001/api/fetchEvents', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({idUser}),
+        });
+
+        if (response.ok) {
+            const data = await response.json()
+            console.log("Eventos Calendario")
+
+            console.log(data)
+            setEvents([...data]); // [data] es un array de diccionarios y ... le quita el array y ya solo quedan los diccionarios
+        } else {
+            alert('Error al obtener eventos');
+        }
+    }
+
+    const fetchGroups = async (event) => {
+        const response = await fetch('http://localhost:3001/api/fetchGroupsCalendar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({idUser}),
+        });
+
+        if (response.ok) {
+            const data = await response.json()
+            console.log("EGruposCalendario")
+
+            console.log(data)
+
+            // Aqui se insertas los grupos
+
+        } else {
+            alert('Error al obtener Grupos');
+        }
+    }
+
+    useEffect(() => {
+        fetchEvents();
+        fetchGroups();
+    }, []);
 
     const handleFilterChange = (type, group) => {
         setFilters({ type, group });
