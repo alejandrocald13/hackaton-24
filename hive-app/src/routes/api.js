@@ -58,19 +58,21 @@ class Table{
           await db.close();
     };
 
-    async insertNotes(idUser, information, confirmatedDate, image){
-        const db = await open({
-            filename: "./hive-db.db",
-            driver: sqlite3.Database,
-          });
-        
-          const stmt = await db.prepare(
-            'INSERT INTO Note (idUser, information, confirmatedDate, image) VALUES (?, ?, ?, ?)'
-          );
-          await stmt.run(idUser, information, confirmatedDate, image);
-          await stmt.finalize();
-          await db.close();
-    };
+
+    async insertNote(idUser, information, confirmatedDate){
+      const db = await open({
+          filename: "./hive-db.db",
+          driver: sqlite3.Database,
+        });
+      
+        const stmt = await db.prepare(
+          'INSERT INTO Note (idUser, information, confirmatedDate) VALUES (?, ?, ?)'
+        );
+        await stmt.run(idUser, information, confirmatedDate);
+        await stmt.finalize();
+        await db.close();
+        console.log("NOTA insertado y conexión cerrada.");
+  };
 
 
     async insertPost(idGroup, idUser, confirmatedDate, information, image){
@@ -357,6 +359,31 @@ class Table{
  
     );
       return data
+    }
+    // Obtener data
+    async getNotes(idUser){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+    
+      const data = await db.all(
+        'SELECT * FROM Note JOIN User ON Note.idUser = User.userName WHERE Note.idUser = ?',
+        [idUser]
+ 
+    );
+      return data
+    }
+
+    // Eliminar
+    // Se modifico el delete con idNote y idUser a solo idNote
+    async deleteNotes(idNotes){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+      const result = await db.run("DELETE FROM Note WHERE idNote = ?", [idNotes]);
+      return result
     }
 
 };

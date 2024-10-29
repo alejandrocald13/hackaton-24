@@ -144,11 +144,48 @@ app.post("/api/getEventsFeed", async (req, res) => {
   res.json(result);
 });
 
-// Ruta para obtener data
-app.post("/api/getNotesFeed", async (req, res) => {
-  const { username } = req.body;
+// Ruta Obtener notas
+app.post("/api/getNotes", async (req, res) => {
+  const { idUser } = req.body;
   try {
-    const result = await table.getNotesFeed(username);
+    console.log(idUser)
+    const result = await table.getNotes(idUser);
+    console.log(result)
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("No se pudieron obtener las notas");
+  }
+});
+
+// Ruta para obtener notas Feed
+// Obtener eventos para el mural
+app.post("/api/getEventsFeed", async (req, res) => {
+  const { username } = req.body;
+  const result = await table.getEventsFeed(username);
+  res.json(result);
+});
+
+// Ruta para insertar notas
+app.post("/api/insertNote", async (req, res) => {
+  const {idUser, information, confirmatedDate} = req.body;
+  try {
+    await table.insertNote(idUser, information, confirmatedDate);
+    res.status(200).send("Nota insertada conrrectamente");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Nota no insertada");
+  }
+});
+
+
+
+// Ruta para eliminar
+app.post("/api/deleteNotes", async (req, res) => {
+  const { idNote} = req.body;
+  try {
+    console.log(idNote)
+    const result = await table.deleteNotes(idNote);
     res.json(result);
   } catch (error) {
     console.error(error);
