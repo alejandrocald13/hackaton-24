@@ -2,7 +2,7 @@
 
 ## Descripción General del Proyecto
 
-<p style="text-align: justify;">El proyecto Hive es una solución integral destinada a estudiantes, ya sean universitarios o de otros niveles educativos. Hive ofrece una nueva red social educativa que facilita la organización y la gestión de eventos estudiantiles. A través de un mural, los estudiantes pueden ver todos los eventos venideros, desde fechas de cumpleaños hasta entregas de proyectos. Los eventos se publican en grupos, a los que se accede con un único código de identificación, permitiendo una interacción efectiva y una mejor preparación para los días próximos. Los integrantes de un grupo pueden ayudarse mutuamente a recordar eventos importantes, fomentando una mejor organización sin descuidar las relaciones personales.</p>
+El proyecto Hive es una solución integral destinada a estudiantes, ya sean universitarios o de otros niveles educativos. Hive ofrece una nueva red social educativa que facilita la organización y la gestión de eventos estudiantiles. A través de un mural, los estudiantes pueden ver todos los eventos venideros, desde fechas de cumpleaños hasta entregas de proyectos. Los eventos se publican en grupos, a los que se accede con un único código de identificación, permitiendo una interacción efectiva y una mejor preparación para los días próximos. Los integrantes de un grupo pueden ayudarse mutuamente a recordar eventos importantes, fomentando una mejor organización sin descuidar las relaciones personales.</p>
 
 ## Tecnologías Utilizadas
 
