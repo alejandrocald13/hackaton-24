@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanuman:wght@100;300;400&family=Merriweather:ital,wght@0,300;1,300&family=Newsreader:wght@200;300;400&family=Open+Sans:ital,wght@1,300&family=Poppins:wght@400;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: #EEEEEE;
+    font-family: 'Poppins', sans-serif, 'Open Sans', sans-serif, 'Newsreader', serif, 'Hanuman', serif, 'Merriweather', serif;
+}
+
+.calendario {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #EEEEEE;
+    padding-bottom: 3rem;
+    padding: 0 2rem;
+}
+
+.calendario .titulo {
+    text-align: center;
+    font-size: 1.5em;
+    margin-top: 20px;
+}
+
+.calendario .filters {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 10px 0;
+}
+
+.calendario .events-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 0 20px;
+}
+
+.event-item {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+}
+
+.event-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    font-weight: bold;
+    background-color: #ffc107;
+    border-radius: 8px;
+    padding: 5px;
+    color: #fff;
+}
+
+.event-details {
+    margin-left: 15px;
+    flex-grow: 1;
+}
+
+.event-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.event-description {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 5px;
+}
