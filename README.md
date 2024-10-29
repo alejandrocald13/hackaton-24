@@ -48,7 +48,7 @@ El calendario permite ver de forma clara todos los eventos en una **vista mensua
 
 ## 💻 Equipo de Desarrollo: **Code Hive Machine**
 
-- 👑 **Líder**: *Grecia Fernanda Fuentes Hernández* - 1537723
+- ✨ **Líder**: *Grecia Fernanda Fuentes Hernández* - 1537723
 - *Mayda Daniela Matul Alvarado* - 1535523
 - *Josue David Bautista Orozco* - 1532523
 - *Carlos Daniel Gómez Aguilar* - 1506323
