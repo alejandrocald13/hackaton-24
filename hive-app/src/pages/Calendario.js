@@ -10,6 +10,50 @@ function Calendario() {
     const [groups, setGroups] = useState([]);
     const [showMessage, setShowMessage] = useState(false); // Estado para el mensaje de formato
 
+
+    // Cuando ya jale se integra lo siguiente: 
+    /*const fetchEvents = async (event) => {
+        const response = await fetch('http://localhost:3001/api/fetchEvents', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({idUser}),
+        });
+
+        if (response.ok) {
+            const data = await response.json()
+            setEvents([...data]); // [data] es un array de diccionarios y ... le quita el array y ya solo quedan los diccionarios
+        } else {
+            alert('Error al obtener eventos');
+        }
+    }
+
+    const fetchGroups = async (event) => {
+        const response = await fetch('http://localhost:3001/api/fetchGroupsCalendar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({idUser}),
+        });
+
+        if (response.ok) {
+            const data = await response.json()
+            // Filtrar grupos en base al campo type
+            const academicGroups = data.filter(group => group.type === 1);
+            const personalGroups = data.filter(group => group.type === 0);
+
+            // Actualizar los estados
+            setGroups([...data])
+            setAcademicGroups(academicGroups);
+            setPersonalGroups(personalGroups);
+
+        } else {
+            
+        }
+    }
+
+    useEffect(() => {
+        fetchEvents();
+        fetchGroups();
+    }, []);*/
     const academicGroups = [
         { id: 'group1', name: 'Grupo Académico 1' },
         { id: 'group2', name: 'Grupo Académico 2' }

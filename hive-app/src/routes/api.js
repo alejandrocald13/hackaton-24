@@ -1,8 +1,6 @@
 import { open } from "sqlite";
 import sqlite3 from "sqlite3";
 import { encrypt , decrypt } from "./crypt.js";
-import { useEffect } from "react";
-import { isCompositeComponent } from "react-dom/test-utils";
 
 // Hacer clase base de datos
 
@@ -78,71 +76,78 @@ class Table{
     };
 
 
-    async insertPost(idGroup, idUser, confirmatedDate, information, image){
-        const db = await open({
-            filename: "./hive-db.db",
-            driver: sqlite3.Database,
-          });
-        
-          const stmt = await db.prepare(
-            'INSERT INTO Post (idGroup, idUser, confirmatedDate, information, image) VALUES (?, ?, ?, ?, ?)'
-          );
-          await stmt.run(idGroup, idUser, confirmatedDate, information, image);
-          await stmt.finalize();
-          await db.close();
-          console.log("Usuario insertado y conexión cerrada.");
-    };
-
-    async validateUser(userName, password, email = null){
+    async createEvent(idUser, idGroup, title, info, createdDate, expiredDate){
       const db = await open({
         filename: "./hive-db.db",
         driver: sqlite3.Database,
       });
-    
-      const stmt = await db.get(
-        'SELECT * FROM User WHERE userName = ?',
-        [userName]
-    );
-      let userFound = false
-      if (stmt) {
-        
-        userFound = true;
-
-        if (userFound){
-
-            const foundPassword = stmt.password;
-            const iv = stmt.iv;
-
-            const decryptedText = decrypt({encryptedData: foundPassword, iv: iv});
-
-            if (decryptedText === password){
-                userFound = true;
-            }
-            else{
-                userFound = false;
-            }
-        }
-        
-        
-
-
-      } else{
-        userFound = false
-      }
+      const stmt = await db.prepare(
+        'SELECT Event.title, Event.information, Event.expiredDate, Group_.type, Group_.groupName FROM Event JOIN Groups ON Groups.idGroup = Event.idGroup JOIN Group_ ON Event.idGroup = Group_.idGroup WHERE Groups.idUser = "alejandrocald13"',
+      );
+      
+      await stmt.run(idUser, idGroup, title, info, createdDate, expiredDate);
+      await stmt.finalize();
       await db.close();
-      return userFound
-
     }
 
-    // ROBERTO CALDERON
+    async fetchEvent(idUser){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+        
+      const stmt = await db.all(
+        'SELECT Event.title, Event.information, Event.expiredDate, Group_.type, Group_.groupName, Group_.idGroup FROM Event JOIN Groups ON Groups.idGroup = Event.idGroup JOIN Group_ ON Event.idGroup = Group_.idGroup WHERE Groups.idUser = "alejandrocald13"'
+    );
 
+    let result;
+
+    if (stmt) {
+        result = stmt
+      }
+      else{
+        result = null;
+      }
+
+      await db.close();
+      return result;
+    }
+
+    async fetchGroupCalendar(idUser){
+      const db = await open({
+        filename: "./hive-db.db",
+        driver: sqlite3.Database,
+      });
+        
+      const stmt = await db.all(
+        'SELECT Groups.idGroup, Group_.groupName, Group_.type FROM Groups JOIN Group_ ON Groups.idGroup = Group_.idGroup WHERE Groups.idUser = "alejandrocald13"'
+    );
+
+    let result;
+
+    if (stmt) {
+        result = stmt
+      }
+      else{
+        result = null;
+      }
+
+      await db.close();
+      console.log("resultado")
+      console.log(result)
+      return result;
+    }
+
+
+
+    // ROBERTO CALDERON
     async fetchGroups(idUser){
       const db = await open({
         filename: "./hive-db.db",
         driver: sqlite3.Database,
       });
     
-      const stmt = await db.get(
+      const stmt = await db.all(
         'SELECT * FROM Groups JOIN Group_ ON Groups.idGroup = Group_.groupName WHERE Groups.idUser = ?',
         [idUser]
     );
@@ -159,8 +164,6 @@ class Table{
       await db.close();
 
       return result;
-
-
     }
 
 
