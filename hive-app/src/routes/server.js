@@ -14,6 +14,7 @@ const port = process.env.PORT || 3001;
 // Union de puertos diferente
 
 app.use(cors({
+  origin: '*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true // Permite cookies y encabezados autorizados
 }))
