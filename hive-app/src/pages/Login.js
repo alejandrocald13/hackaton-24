@@ -19,7 +19,7 @@ function Login() {
     if (isRegistering) {
       // Lógica para el registro
       const response = await fetch('https://hackaton-24-zeta.vercel.app/api/register', {
-        method: 'POST',
+        method: 'GET  ',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, username, password, email}),
       });
