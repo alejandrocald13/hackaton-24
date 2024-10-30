@@ -8,7 +8,8 @@ const table = new Table();
 
 // Creando Framework
 const app = express();
-const port = 3001; // Puerto para el servidor
+// Puerto para el servidor
+const port = process.env.PORT || 3001;
 
 // Union de puertos diferente
 app.use(cors());
@@ -204,3 +205,5 @@ app.post("/api/deleteNotes", async (req, res) => {
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
 });
+
+module.exports = app;
