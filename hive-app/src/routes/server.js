@@ -30,7 +30,7 @@ app.use(bodyParser.json());
 
 // AQUI MANEJAMOS LAS ACCIONES QUE SE REALIZARAN EN LA BASE DE DATOS
 // Ruta para inserción de usuarios (/register)
-app.post("/api/register", async (req, res) => {
+app.get("/api/register", async (req, res) => {
   const { name, username, password, email, image } = req.body;
   try {
 
@@ -43,7 +43,7 @@ app.post("/api/register", async (req, res) => {
 });
 
 // Ruta para validar (/login)
-app.post("/api/login", async (req, res) => {
+app.get("/api/login", async (req, res) => {
   const { username, password} = req.body;
   try {
 
@@ -60,7 +60,7 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-app.post("/api/fetchEvents", async (req, res) => {
+app.get("/api/fetchEvents", async (req, res) => {
   const { idUser } = req.body;
   try {
     const result = await table.fetchEvent(idUser);
@@ -90,7 +90,7 @@ app.post("/api/fetchGroupsCalendar", async (req, res) => {
 
 // ROBERTO CALDERON
 // Ruta para sacar los grupos 
-app.post("/api/fetch-groups", async (req, res) => {
+app.get("/api/fetch-groups", async (req, res) => {
   const { username} = req.body;
 
   const result = await table.fetchGroups(username);
@@ -123,14 +123,14 @@ app.post("/api/registerEvent", async (req, res) => {
 });
 
 // Obtener eventos para un grupo en específico
-app.post("/api/getEvent", async (req, res) => {
+app.get("/api/getEvent", async (req, res) => {
   const { idGroup } = req.body;
   const result = await table.getEvents(idGroup);
   res.json(result);
 });
 
 // Obtener miembros del grupo
-app.post("/api/getMembers", async (req, res) => {
+app.get("/api/getMembers", async (req, res) => {
   const {idGroup} = req.body;
   const result = await table.getMembers(idGroup);
   res.json(result);
@@ -151,7 +151,7 @@ app.post("/api/linkPeople", async (req, res) => {
 });
 
 // Ruta Obtener notas
-app.post("/api/getNotes", async (req, res) => {
+app.get("/api/getNotes", async (req, res) => {
   const { idUser } = req.body;
   try {
     console.log(idUser)
@@ -166,7 +166,7 @@ app.post("/api/getNotes", async (req, res) => {
 
 // Ruta para obtener notas Feed
 // Obtener eventos para el mural
-app.post("/api/getEventsFeed", async (req, res) => {
+app.get("/api/getEventsFeed", async (req, res) => {
   const { username } = req.body;
   const result = await table.getEventsFeed(username);
   res.json(result);
@@ -175,7 +175,7 @@ app.post("/api/getEventsFeed", async (req, res) => {
 });
 
 // Ruta para obtener data
-app.post("/api/getNotesFeed", async (req, res) => {
+app.get("/api/getNotesFeed", async (req, res) => {
   const { username } = req.body;
   try {
     const result = await table.getNotesFeed(username);
