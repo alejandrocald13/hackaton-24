@@ -58,5 +58,5 @@ El calendario permite ver de forma clara todos los eventos en una **vista mensua
 
 ## 🔗 Enlaces
 
-- [📂 Repositorio de GitHub]()
-- [🎬 Video de YouTube]()
+- [📂 Repositorio de GitHub](https://github.com/alejandrocald13/hackaton-24/commit/93a469e861aa14b18219153cd01d6f84510973d2)
+- [🎬 Video de YouTube](https://www.youtube.com/watch?v=cccQ5aFCPGY)
