@@ -12,7 +12,10 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 // Union de puertos diferente
-app.use(cors());
+app.use(cors({
+  origin: '*', // Permitir todos los orígenes, ajusta según necesites
+}));
+
 // Middleware para analizar solicitudes JSON
 app.use(bodyParser.json());
 
@@ -202,8 +205,6 @@ app.post("/api/deleteNotes", async (req, res) => {
 });
 
 // Iniciar el servidor
-app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
-});
+export default app;
 
 module.exports = app;
