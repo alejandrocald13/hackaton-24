@@ -21,7 +21,7 @@ function Notas() {
     const fetchNotas = async () => {
         const idUser = localStorage.getItem("user");
 
-        const response = await fetch('https://hackaton-24-zeta.vercel.app/api/getNotes', {
+        const response = await fetch('https://localhost:3001/api/getNotes', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ idUser })
@@ -43,7 +43,7 @@ function Notas() {
 
     // Eliminar Nota
     const handleDelete = async (idNote) => {
-        const response = await fetch('https://hackaton-24-zeta.vercel.app/api/deleteNotes', {
+        const response = await fetch('https://localhost:3001/api/deleteNotes', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ idNote })
@@ -69,7 +69,7 @@ function Notas() {
         const idUser =  localStorage.getItem("user");
         const nuevaNota = { idUser, information, confirmatedDate };
 
-        const response = await fetch('https://hackaton-24-zeta.vercel.app/api/insertNote', {
+        const response = await fetch('https://localhost:3001/api/insertNote', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(nuevaNota),

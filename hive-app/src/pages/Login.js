@@ -18,7 +18,7 @@ function Login() {
 
     if (isRegistering) {
       // Lógica para el registro
-      const response = await fetch('https://hackaton-24-zeta.vercel.app/api/register', {
+      const response = await fetch('https://localhost:3001/api/register', {
         method: 'GET  ',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, username, password, email}),
@@ -39,7 +39,7 @@ function Login() {
 
     } else {
       // Lógica para el inicio de sesión
-      const response = await fetch('https://hackaton-24-zeta.vercel.app/api/login', {
+      const response = await fetch('https://localhost:3001/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
