@@ -8,7 +8,7 @@ const table = new Table();
 
 // Creando Framework
 const app = express();
-// const port = 3001; // Puerto para el servidor
+const port = 3001; // Puerto para el servidor
 
 // Union de puertos diferente
 app.use(cors());
