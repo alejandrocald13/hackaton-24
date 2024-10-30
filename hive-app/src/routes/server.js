@@ -12,9 +12,17 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 // Union de puertos diferente
+
 app.use(cors({
-  origin: '*', // Permitir todos los orígenes, ajusta según necesites
-}));
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true // Permite cookies y encabezados autorizados
+}))
+
+app.use((req, res, next) => {
+  console.log(`Received a ${req.method} request for ${req.url}`);
+  next();
+});
+
 
 // Middleware para analizar solicitudes JSON
 app.use(bodyParser.json());
@@ -25,7 +33,7 @@ app.post("/api/register", async (req, res) => {
   const { name, username, password, email, image } = req.body;
   try {
 
-    await table.insertUser(name, username, password, email, image);
+    await table.insertuserH(name, username, password, email, image);
     res.status(200).send("Usuario registrado exitosamente");
   } catch (error) {
     console.error(error);
