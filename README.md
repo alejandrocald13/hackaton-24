@@ -60,3 +60,10 @@ El calendario permite ver de forma clara todos los eventos en una **vista mensua
 
 - [📂 Repositorio de GitHub](https://github.com/alejandrocald13/hackaton-24/commit/1a35a8f3eb305eb5c5f194560e224c2dbf3a68df)]
 - [🎬 Video de YouTube](https://www.youtube.com/watch?v=cccQ5aFCPGY)
+
+---
+
+## NOTA
+
+Esta aplicación, esta únicamente disponible en servidor local, nosotros requerimos clonar el repositorio. Ejecutar npm install, despues, ejecutar con node server.js y después cargar la pagina con npm run.
+Esto garantiza el uso local de la base de datos, así como su funcionamiento.
