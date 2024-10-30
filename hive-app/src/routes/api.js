@@ -1,9 +1,9 @@
-import { open } from "sqlite";
-import sqlite3 from "sqlite3";
+import {sql, db} from "@vercel/postgres";
+
 import { encrypt , decrypt } from "./crypt.js";
 // Hacer clase base de datos
-
 // Función para insertar usuarios en la base de datos
+
 class Table{
   
     constructor(){
@@ -11,22 +11,23 @@ class Table{
     };
     // Métodos de inserción
     async insertUser(name, userName, password, email, image = null) {
-        
-        const db = await open({
-          filename: "./hive-db.db",
-          driver: sqlite3.Database,
-        });
 
-        const encryptedText = encrypt(password);
+      const client = await db.connect();
 
-        const stmt = await db.prepare(
+      const encryptedText = encrypt(password);
+
+      const stmt = await client.prepare(
           'INSERT INTO User (name, userName, password, email, image, iv, key) VALUES (? ,?, ?, ?, ?, ?, ?)'
-        );
+      );
 
-        await stmt.run(name, userName, encryptedText.encryptedData, email, image, encryptedText.iv, encryptedText.key);
-        await stmt.finalize();
-        await db.close();
-        console.log("Usuario insertado y conexión cerrada.");
+      await stmt.run(name, userName, encryptedText.encryptedData, email, image, encryptedText.iv, encryptedText.key);
+
+        //const { rows : result } = await client.sql`INSERT INTO User (name, userName, password, email, image, iv, key) VALUES (
+          // ${name} , ${userName}, ${password}, ${encryptedText.encryptedData}, ${email}, ${encryptedText.iv}, ${encryptedText.iv})`;
+    
+      await stmt.finalize();
+      await db.close();
+      console.log("Usuario insertado y conexión cerrada.");
     };
 
     async insertGroup(groupName, createdDate, type, creatorUser){
@@ -91,6 +92,7 @@ class Table{
     };
 
     async validateUser(userName, password, email = null){
+
       const db = await open({
         filename: "./hive-db.db",
         driver: sqlite3.Database,
